@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
-public class First_Test {
-
+public class Sortieralgorithmen {
 	public static void sort(ArrayList<Integer> l) {
 		int zw = 0;
 
@@ -95,21 +94,5 @@ public class First_Test {
 		ArrayList<Integer> l = new ArrayList<>();
 		l=getRandomList(5);
 		monkeySort(l);
-		for (int i = 1; i <= 100; i++) {
-			// System.out.print(i+" : ");
-			if (i % 3 == 0) {
-				// System.out.print("fizz");
-			}
-			if (i % 4 == 0) {
-				// System.out.print("buzz");
-			}
-
-			if (i % 3 != 0 && i % 4 != 0) {
-				// System.out.print(i);
-			}
-			// System.out.println();
-		}
-
 	}
-
 }
