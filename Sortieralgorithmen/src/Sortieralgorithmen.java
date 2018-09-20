@@ -33,6 +33,7 @@ public class Sortieralgorithmen {
 	}
 	public static void sort3(ArrayList<Integer> l) {
 		ArrayList<Integer> l2=new ArrayList<>();
+		long startzeit=System.currentTimeMillis();
 		int smallest;
 		while(l.size()!=0) {
 			smallest=l.get(0);
@@ -44,11 +45,14 @@ public class Sortieralgorithmen {
 			l.remove(l.indexOf(smallest));
 			l2.add(smallest);
 		}
+		System.out.println(System.currentTimeMillis()-startzeit);
 		System.out.println(l2.toString());
+		System.out.println(System.currentTimeMillis()-startzeit);
 	}
 	public static void monkeySort(ArrayList<Integer> l) {
 		int biggest=0;
 		int counter=0;
+		long startzeit=System.currentTimeMillis();
 		ArrayList<Integer> l2= new ArrayList<>();
 		for(int i=0;i<l.size();i++) {
 			if(l.get(i)>biggest) {
@@ -80,19 +84,21 @@ public class Sortieralgorithmen {
 			}
 				
 		}
+		System.out.println(System.currentTimeMillis()-startzeit);
 		System.out.println(counter);
 		System.out.println(l.toString());
 	}
 	public static ArrayList<Integer> getRandomList(int length){
 		ArrayList<Integer> l=new ArrayList<>();
 		for(int i=0;i<length;i++) {
-			l.add((int)(Math.random()*100+1));
+			l.add((int)(Math.random()*1000+1));
 		}
 		return l;
 	}
 	public static void main(String[] args) {
 		ArrayList<Integer> l = new ArrayList<>();
-		l=getRandomList(5);
-		monkeySort(l);
+		l=getRandomList(10000000);
+		sort3(l);
+		//monkeySort(l);
 	}
 }
