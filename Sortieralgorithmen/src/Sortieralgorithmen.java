@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Sortieralgorithmen {
-	public static void sort(ArrayList<Integer> l) {
+	public static void bubbleSort(ArrayList<Integer> l) {
 		int zw = 0;
 
 		for (int i = 0; i < l.size(); i++) {
@@ -31,7 +31,7 @@ public class Sortieralgorithmen {
 		}
 		System.out.println(l2.toString());
 	}
-	public static void sort3(ArrayList<Integer> l) {
+	public static void selectionSort(ArrayList<Integer> l) {
 		ArrayList<Integer> l2=new ArrayList<>();
 		long startzeit=System.currentTimeMillis();
 		int smallest;
@@ -88,6 +88,28 @@ public class Sortieralgorithmen {
 		System.out.println(counter);
 		System.out.println(l.toString());
 	}
+	public static void insertionSort(ArrayList <Integer> l) {
+		ArrayList<Integer> l2= new ArrayList<>();
+		boolean firstCard=true;
+		while(l.size()!=0) {
+			int index=0;
+			int wert=l.get(0);
+			if(!firstCard) {
+				for(int i=0;i<l2.size();i++) {
+				
+					if(wert<l2.get(i)) {
+						index=i;
+						break;
+					}
+					else index=i+1;
+				}
+			}
+			else {firstCard=false; l2.add(wert);}
+			l.remove(0);
+			l2.add(index, wert);
+		}
+		System.out.println(l2.toString());
+	}
 	public static ArrayList<Integer> getRandomList(int length){
 		ArrayList<Integer> l=new ArrayList<>();
 		for(int i=0;i<length;i++) {
@@ -97,8 +119,8 @@ public class Sortieralgorithmen {
 	}
 	public static void main(String[] args) {
 		ArrayList<Integer> l = new ArrayList<>();
-		l=getRandomList(10000000);
-		sort3(l);
+		l=getRandomList(1000);
+		insertionSort(l);
 		//monkeySort(l);
 	}
 }
