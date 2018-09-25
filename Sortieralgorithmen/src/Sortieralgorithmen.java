@@ -16,7 +16,7 @@ public class Sortieralgorithmen {
 		System.out.println(l.toString());
 	}
 
-	public static void sort2(ArrayList<Integer> l) {
+	public static void counterSort(ArrayList<Integer> l) {
 		boolean fertig=false;
 		ArrayList<Integer> l2= new ArrayList<>();
 		int zaehler=1;
