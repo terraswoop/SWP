@@ -8,22 +8,22 @@ public class FibonacciZahlen {
 		else return calcFib(n-1)+calcFib(n-2);
 		
 	}
-	public static int calcFibEnd(int n, int sum, int sum2, int c){
-		if(c==n) {
+	public static int calcFibEnd(int n, int sum, int sum2){
+		if(n==1) {
 			return sum+sum2;
 		}
-		else return calcFibEnd(n,sum2,sum+sum2,++c);
+		else return calcFibEnd(n-1,sum2,sum+sum2);
 		}
 		public static int calcFibEnd(int n) {
-			return calcFibEnd(n,0,1,1);
+			return calcFibEnd(n,0,1);
 		}
 	
 	public static void main(String[] args) {
 		long startzeit=System.currentTimeMillis();
-		System.out.println(calcFibEnd(30));
+		System.out.println(calcFibEnd(40));
 		System.out.println(System.currentTimeMillis()-startzeit);
 		startzeit=System.currentTimeMillis();
-		System.out.println(calcFib(30));
+		System.out.println(calcFib(40));
 		System.out.println(System.currentTimeMillis()-startzeit);
 	}
 
