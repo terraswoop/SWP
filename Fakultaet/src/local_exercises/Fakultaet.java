@@ -14,8 +14,19 @@ public static int faculty(int n) {
 	}
 	return n*faculty(n-1);
 }
+public static int facultyEnd(int n, int sum) {
+	if(n==1) {
+		return sum;
+	}
+	else {return facultyEnd(n-1,sum*n);}
+}
 	public static void main(String[] args) {
-		System.out.println(faculty(6));
+		long startzeit=System.currentTimeMillis();
+		System.out.println(faculty(30));
+		System.out.println(System.currentTimeMillis()-startzeit);
+		startzeit=System.currentTimeMillis();
+		System.out.println(facultyEnd(30,1));
+		System.out.println(System.currentTimeMillis()-startzeit);
 
 	}
 
