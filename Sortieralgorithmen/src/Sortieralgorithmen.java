@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class Sortieralgorithmen {
+	static int counter=0;
 	public static void bubbleSort(ArrayList<Integer> l) {
 		int zw = 0;
 
@@ -49,6 +50,101 @@ public class Sortieralgorithmen {
 		System.out.println(l2.toString());
 		System.out.println(System.currentTimeMillis()-startzeit);
 	}
+	public static ArrayList<Integer> quickSort(ArrayList<Integer> l) {
+		if(l.size()<=1) {
+			return l;
+		}
+		counter++;
+		int pvot = l.get((int)(Math.random()*l.size()));
+		ArrayList<Integer> l1=new ArrayList<>();
+		ArrayList<Integer> l2=new ArrayList<>();
+		for(int i=0;i<l.size();i++) {
+			if(l.get(i)<pvot) {
+				l1.add(l.get(i));
+			}
+			else l2.add(l.get(i));
+		}
+		
+		l1= quickSort(l1);
+		l1.addAll(quickSort(l2));
+		return l1;
+	}
+
+	public static void quickSort2(int[] l,int a, int b){
+		int pvot=l[(a+b)/2];
+		int zw;
+		int i=a;
+		int j=b;
+		while(i<=j) {
+			while(l[i]<pvot) {
+				i++;
+			}
+			while(l[j]>pvot) {
+				j--;
+			}
+			if(i<=j) {
+				zw=l[i];
+				l[i]=l[j];
+				l[j]=zw;
+				i++;
+				j--;
+			}
+		}
+		if(a<i-1) {
+			quickSort2(l,a,i-1);
+		}
+		if(b>i) {
+			quickSort2(l,i,b);
+		}
+	}
+/*	public static void quickSort3(int[] l, int a, int b) {
+		int pvot=l[(a+b)/2];
+		int pvindex=(a+b)/2;
+		int zw;
+		boolean pvotwechs=false;
+		for(int i=a;i<pvindex;i++) {
+			if(l[i]>=pvot) {
+				for(int j=pvindex;j<=b;j++) {
+					if(l[j]<=l[i]) {
+						zw=l[i];
+						l[i]=l[j];
+						l[j]=zw;
+						System.out.println("swap");
+						if(zw==pvot) {pvotwechs=true;}
+					}
+				}
+			}
+		}
+		for(int i=pvindex;i<=b;i++) {
+			if(l[i]<pvot) {
+				for(int j=a;j<pvindex;j++) {
+					if(l[j]>l[i]) {
+						zw=l[i];
+						l[i]=l[j];
+						l[j]=zw;
+						System.out.println("swap2");					
+					}
+				}
+			}
+		}
+		for(int i=a;i<=b;i++) {
+			System.out.printf("%d ",l[i]);
+		}
+		System.out.println("      "+ a+"   "+b+"   "+pvindex);
+		if(a+1<b) {
+			if(!pvotwechs) {
+				System.out.println("next1");
+				quickSort3(l,a,pvindex);
+				quickSort3(l,pvindex+1,b);
+			}
+			else {
+				System.out.println("next2");
+				quickSort3(l,a,pvindex-1);
+				quickSort3(l,pvindex,b);
+			}
+		}
+		
+	}
 	public static void monkeySort(ArrayList<Integer> l) {
 		int biggest=0;
 		int counter=0;
@@ -88,6 +184,7 @@ public class Sortieralgorithmen {
 		System.out.println(counter);
 		System.out.println(l.toString());
 	}
+	*/
 	public static void insertionSort(ArrayList <Integer> l) {
 		ArrayList<Integer> l2= new ArrayList<>();
 		boolean firstCard=true;
@@ -119,8 +216,22 @@ public class Sortieralgorithmen {
 	}
 	public static void main(String[] args) {
 		ArrayList<Integer> l = new ArrayList<>();
-		l=getRandomList(1000);
-		insertionSort(l);
+		l=getRandomList(20);
+		int[] a = new int[l.size()];
+		for(int i=0;i<l.size();i++) {
+			a[i]=l.get(i);
+		}
+		//quickSort(a,0,a.length-1);
+		
+		System.out.println();
+		System.out.println(counter);
+		quickSort2(a,0,a.length-1);
+		for(int i= 0;i<a.length;i++) {
+			System.out.printf("%d, ",a[i]);
+		}
+		//System.out.println(l.toString());
+		//insertionSort(l);
 		//monkeySort(l);
+		
 	}
 }
