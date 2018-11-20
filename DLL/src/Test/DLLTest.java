@@ -1,6 +1,9 @@
 package Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -11,7 +14,7 @@ public class DLLTest {
 	public static LinkedList<String> t2;
 	public static LinkedList<String> t3;
 	@BeforeClass
-	public void lists() {
+	public static void lists() {
 		t1= new LinkedList<>();
 		t2= new LinkedList<>();
 		t3= new LinkedList<>();
@@ -45,4 +48,18 @@ public class DLLTest {
 		assertEquals(2, t3.getSize());
 	}
 	
+	@Test
+	public void genericTest() {
+		LinkedList<String> l1=new LinkedList<>();
+		LinkedList<Integer> l2=new LinkedList<>();
+		LinkedList<ArrayList<Integer>> l3=new LinkedList<>();
+		l1.add("Hallo");
+		l2.add(5);
+		l3.add(new ArrayList<>());
+		l3.getValue(0).add(10);
+		assertEquals("Hallo",l1.getValue(0));
+		assertEquals(5==l2.getValue(0),true);
+		assertEquals(10==l3.getValue(0).get(0),true);
+		
+	}
 }
