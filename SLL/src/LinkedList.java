@@ -1,14 +1,14 @@
 
-public class LinkedList {
-	private Node head;
+public class LinkedList<T> {
+	private Node<T> head;
 	private int size=0;
-	public void add(int value) {
-		Node n=new Node(value);
+	public void add(T value) {
+		Node<T> n=new Node<T>(value);
 		if(head==null) {
 		head=n;
 		}
 		else {
-			Node tmp=head;
+			Node<T> tmp=head;
 			while(tmp.getNext()!=null) {
 				tmp=tmp.getNext();
 				
@@ -21,7 +21,7 @@ public class LinkedList {
 		return size;
 	}
 	public void remove(int index) {
-		Node tmp=head;
+		Node<T> tmp=head;
 		for(int i=0;i<index;i++) {
 			if(tmp.getNext()==null || head==null) {
 				throw new IndexOutOfBoundsException();
@@ -29,8 +29,8 @@ public class LinkedList {
 			tmp=tmp.getNext();
 		}
 		size--;
-		Node prev=head;
-		Node next=head;
+		Node<T> prev=head;
+		Node<T> next=head;
 		if(index==0) {
 			head=head.getNext();
 		}
@@ -44,8 +44,8 @@ public class LinkedList {
 			prev.setNext(next);
 		}
 	}
-	public int getValue(int index){
-		Node tmp=head;
+	public T getValue(int index){
+		Node<T> tmp=head;
 		for(int i=0;i<index;i++) {
 			if(tmp.getNext()==null) {
 				throw new IndexOutOfBoundsException();
