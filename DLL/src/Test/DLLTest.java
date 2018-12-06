@@ -41,8 +41,8 @@ public class DLLTest {
 	@Test
 	public void sizeTest() {
 		
-		t3.add("Hallo");;
-		t3.add("du");;
+		t3.add("Hallo");
+		t3.add("du");
 		t3.add("bist");
 		t3.remove(2);
 		assertEquals(2, t3.getSize());
