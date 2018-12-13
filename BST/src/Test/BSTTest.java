@@ -9,10 +9,9 @@ import BST.BinaryTree;
 import BST.ElementNotFoundException;
 
 public class BSTTest {
-
+	private static BinaryTree<Integer> bt=new BinaryTree<Integer>();
 	@Test
 	public void insertTest() throws ElementNotFoundException{
-		BinaryTree<Integer> bt=new BinaryTree<Integer>();
 		bt.insert(10);
 		bt.insert(5);
 		bt.insert(12);
@@ -26,5 +25,20 @@ public class BSTTest {
 		assertEquals(4,(int)bt.getNode(4).getValue());
 		assertEquals(10,(int)bt.getNode(10).getValue());
 		assertEquals(30,(int)bt.getNode(30).getValue());
+	}
+	@Test
+	public void removeTest() {
+		try {
+		bt.removeElement(5);
+		bt.removeElement(25);
+		bt.removeElement(10);
+		assertEquals(4,(int)bt.getNode(4).getValue());
+		assertEquals(30,(int)bt.getNode(30).getValue());
+		}
+		catch(ElementNotFoundException e){
+			
+		}
+		
+		
 	}
 }

@@ -15,9 +15,10 @@ public class Main {
 		bt.insert(3);
 		bt.insert(2);
 		bt.insert(1);
+		
 		try {
 		bt.removeElement(5);
-		System.out.println(bt.getNode(3).getValue());
+		System.out.println(bt.getNode(4).getValue());
 		}
 		catch(ElementNotFoundException e) {
 			System.out.println("Nicht vorhanden!");

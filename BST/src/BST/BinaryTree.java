@@ -1,9 +1,9 @@
 package BST;
 
-import BST.Node;
+import java.util.ArrayList;
 
 public class BinaryTree<T> {
-	private Node<T> root;
+	public Node<T> root;
 	private int size = 0;
 
 	public void insert(T value) {
@@ -151,6 +151,56 @@ public class BinaryTree<T> {
 				}
 				stop = true;
 			}
+		}
+
+	}
+	//printTree is malfunctioning
+	public void printTree() {
+		ArrayList<Node<T>> ebene = new ArrayList<Node<T>>();
+		ArrayList<Node<T>> zw = new ArrayList<Node<T>>();
+		zw.add(root);
+		System.out.println("	" + root.getValue());
+		boolean scnd = false;
+		boolean finished=false;
+		while (true) {
+			ebene = zw;
+			for (int i = 0; i < ebene.size(); i++) {
+				if (ebene.get(i) != null) {
+					if (ebene.get(i).getBigger() != null) {
+						zw.add(ebene.get(i).getBigger());
+
+					} else {
+						zw.add(null);
+					}
+					if (ebene.get(i).getSmaller() != null) {
+						zw.add(ebene.get(i).getSmaller());
+
+					} else {
+						zw.add(null);
+					}
+				}
+			}
+			for (int i = 0; i < zw.size(); i++) {
+				if (zw.get(i) == null) {
+					System.out.print("		");
+				} else {
+					System.out.print(zw.get(i).getValue());
+				}
+				if (scnd) {
+					System.out.print("			");
+				} else
+					scnd = !scnd;
+			}
+			System.out.println();
+			
+			  for(int i=0;i<zw.size();i++) {
+				  finished=true;
+				  if(zw.get(i)!=null) {
+					  finished=false;
+				  }
+			  }
+			  if(finished) {break;}
+			
 		}
 
 	}
