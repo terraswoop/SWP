@@ -1,4 +1,5 @@
-from django.db import models
+from django.db import models, fields.ForeignKey
+from django.contrib.auth import User
 
 class Class(models.Model):
     class_name = models.CharField(max_length=200)
@@ -6,11 +7,13 @@ class Class(models.Model):
 class Teacher(models.Model):
     name = models.CharField(max_length=200)
     first_name = models.CharField(max_length=200)
+    user = fields.ForeignKey(User)
 
 class Student(models.Model):
     class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     first_name = models.CharField(max_length=200)
+    user = fields.ForeignKey(User)
 
 class Subject(models.Model):
     name = models.CharField(max_length=200)
