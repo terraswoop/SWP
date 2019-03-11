@@ -4,8 +4,10 @@ from django.views import generic
 from school.models import Teacher, Student
 from .forms import CustomUserCreationForm
 from django.template import loader
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.shortcuts import render
+from django.contrib.auth.models import Group
 
 class SignUp(generic.CreateView):
     form_class = CustomUserCreationForm
@@ -27,16 +29,35 @@ class SignUp(generic.CreateView):
 #        template_name = 'teacher_home.html'
 
 def home(request):
+    #teacher = Group.objects.get(name='teacher')
+    #student = Group.objects.get(name='Student')
     if request.user.is_authenticated:
         user=  request.user
-    if user.groups.filter(name=Teacher).exists():
-    #    return render(request, 'teacher_home.html')
-        t=loader.get_template('teacher_home.html')
-
-    else:
-    #    return render(request, 'student_home.html')
-        t=loader.get_template('student_home.html')
-        
-    c = {'foo': 'bar'}
-    return HttpResponse(t.render(c, request), content_type='application/xhtml+xml')
     
+    for g in user.groups.all():
+        l=g.name
+    #if user.groups.filter(name=Teacher).exists():
+    if l=='Teacher':
+        return HttpResponseRedirect(reverse('TeacherHome',args=None))
+        #return HttpResponse('Nigga Teacher')
+    #    return render(request, 'teacher_home.html')
+    #    t=loader.get_template('teacher_home.html')
+
+    else: 
+        #if user.groups.filter(name=Student).exists():
+        if  l=='Student':
+            return HttpResponseRedirect(reverse('StudentHome', args=None))
+            #return HttpResponse('Nigga Student')
+    #    return render(request, 'student_home.html')
+    #    t=loader.get_template('student_home.html')
+        else: 
+            return HttpResponse('Not signed to a group yet!')
+    #c = {'foo': 'bar'}
+    #return HttpResponse(t.render(c, request), content_type='application/xhtml+xml')
+
+class StudentHome(generic.TemplateView):
+    template_name='student_home.html'
+
+class TeacherHome(generic.TemplateView):
+    template_name='teacher_home.html'    
+
