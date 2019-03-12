@@ -8,6 +8,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.models import Group
+from django.contrib.auth.decorators import user_passes_test
+
 
 class SignUp(generic.CreateView):
     form_class = CustomUserCreationForm
@@ -55,9 +57,26 @@ def home(request):
     #c = {'foo': 'bar'}
     #return HttpResponse(t.render(c, request), content_type='application/xhtml+xml')
 
+def student_check(user):
+    return 'Student' in user.groups.all()
+
+def teacher_check(user):
+    return 'Teacher' in user.groups.all()
+
+#@user_passes_test(student_check)
+#def StudentHome(request):
+#    #template_name='student_home.html'
+#    template = loader.get_template('student_home.html')
+#    return HttpResponse(template.render())
+
+#@user_passes_test(teacher_check)
+#def TeacherHome(request):
+    #template_name='teacher_home.html'
+#   template = loader.get_template('teacher_home.html')
+#   return HttpResponse(template.render())
+
 class StudentHome(generic.TemplateView):
     template_name='student_home.html'
 
 class TeacherHome(generic.TemplateView):
-    template_name='teacher_home.html'    
-
+    template_name='teacher_home.html'
