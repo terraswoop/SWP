@@ -1,7 +1,7 @@
 # users/views.py
 from django.urls import reverse_lazy
 from django.views import generic
-from school.models import Teacher, Student
+from school.models import Teacher, Student, Class, Clatea
 from .forms import CustomUserCreationForm
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
@@ -40,7 +40,11 @@ def home(request):
         l=g.name
     #if user.groups.filter(name=Teacher).exists():
     if l=='Teacher':
-        return HttpResponseRedirect(reverse('TeacherHome',args=None))
+        teacher=''
+        for t in Teacher.objects.all():
+            if(t.user.id==user.id):
+                teacher=t
+        return HttpResponseRedirect(reverse('TeacherHome',args=(teacher.id,)))
         #return HttpResponse('Nigga Teacher')
     #    return render(request, 'teacher_home.html')
     #    t=loader.get_template('teacher_home.html')
@@ -78,5 +82,19 @@ def teacher_check(user):
 class StudentHome(generic.TemplateView):
     template_name='student_home.html'
 
-class TeacherHome(generic.TemplateView):
+class TeacherHome(generic.ListView):
+    #tea= get_object_or_404(Teacher, pk=self.kwargs['pk'])
     template_name='teacher_home.html'
+    context_object_name= 'class_list'
+    def get_queryset(self):
+        l=[]
+        pk=self.kwargs['pk']
+        for i in Class.objects.all():
+            clatea=False
+            for j in Clatea.objects.all():
+                if(j.klasse.class_name==i.class_name and j.teacher.id == pk):
+                    clatea=True
+            if(clatea):
+                l.append(i)
+                clatea=False
+        return l

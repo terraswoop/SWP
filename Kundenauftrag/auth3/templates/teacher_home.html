@@ -1,1 +1,13 @@
-<p>You Are in the Teacher Home</p>
+<p>Guten Tag, Professor {{ user.username }}!</p>
+<p> Folgende Klassen sind ihnen zugewiesen:</p>
+<br><br><br><br>
+{% if class_list %}
+    <ul>
+    {% for class in class_list %}
+    <li><a href="{% url 'school:class' class.id">{{ class.class_name }}</a></li>
+    </ul>
+    {% endfor %}
+</ul>
+{% else %}
+    <p>No class is signed to you Niggafaggot</p>
+{% endif %}

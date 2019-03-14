@@ -38,6 +38,7 @@ class Exam(models.Model):
     stusu = models.ForeignKey(Stusu, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     grade = models.IntegerField(default=0)
+    value = models.IntegerField(default=0)
     def __str__(self):
         return self.name
 
