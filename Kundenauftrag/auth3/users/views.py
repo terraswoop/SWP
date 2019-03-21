@@ -2,7 +2,7 @@
 from django.urls import reverse_lazy
 from django.views import generic
 from school.models import Teacher, Student, Class, Clatea, Subject, Stusu, Exam
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, ExamForm
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -29,6 +29,28 @@ class SignUp(generic.CreateView):
 #        template_name = 'student_home.html'
 #    else:
 #        template_name = 'teacher_home.html'
+def addedExam(request, pk):
+    #form = ExamForm(request.POST)
+    data=request.POST.copy()
+    string= data.get('stusu')
+    s=string.split(", ")
+    sub=s[0]
+    stu=s[1]
+    stusu=''
+    for i in Stusu.objects.all():
+        if(i.subject.name==sub and i.student.name==stu):
+            stusu=i
+    new_form= Exam(stusu=stusu, name=data.get('name'), grade=data.get('grade'), value=data.get('value'))
+    #new_form.is_valid()
+    #new_form.full_clean()
+    new_form.save()
+    if request.user.is_authenticated:
+        user=  request.user
+    l=''
+    for i in Teacher.objects.all():
+        if(user.id==i.user.id):
+            l=i
+    return HttpResponseRedirect(reverse('ClassTeacher', args=(l.id,)))
 
 def home(request):
     #teacher = Group.objects.get(name='teacher')

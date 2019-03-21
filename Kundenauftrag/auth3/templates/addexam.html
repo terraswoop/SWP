@@ -1,10 +1,14 @@
-<p>Add an exam for Student</p>
-<form action="/add_exam/" method="post">
-    <label for="Subject-Student">Subject-Student:</label>
-    <select name="Exam">
-        <option value="{{ stusu }}">{{ stusu }}</option>
-    </select>
-    <label for="Name">Enter Exam-Name:</label>
-    <input id="name" type="text" name="name">
-    <label for="Grade">Grade:</label>
+<p>Add an exam for {{ stusu.student }}</p><br>
+
+<form action="{% url 'AddedExam' stusu.student.klasse.id %}" method="post">
+    {% csrf_token %}
+    <label for="stusu">Subject-Student:</label>
+    <input id="stusu" type="text" name="stusu" value="{{ stusu }}" readonly><br><br>
+    <label for="Name">Enter Exam-Name:</label><br>
+    <input id="name" type="text" name="name"><br><br>
+    <label for="grade">Grade:</label><br>
+    <input id="grade" type="number" name="grade"><br><br>
+    <label for="value">Value:</label><br>
+    <input id="value" type="number" name="value"><br><br>
+    <input type="submit" value="Save">
 </form>
