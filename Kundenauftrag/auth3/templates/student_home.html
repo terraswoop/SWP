@@ -1,1 +1,14 @@
-<p>You are in the Student Home</p>
+{% if stusu_list %}
+<p>Welcome to the {{ stusu_list.0.student.klasse }}</p>
+
+<br><br><br><br>
+<ol>
+    {% for stusu in stusu_list %}
+    <li><a href="{% url 'StudentSubject' stusu.id %}">{{ stusu.subject.name  }}</a></li>
+    {% endfor %}
+</ol>
+{% else %}
+    <p>No Subjects signed to you Niggafaggot</p>
+{% endif %}
+<br><br>
+<a href="{% url 'BackHome' %}">Go back</a>

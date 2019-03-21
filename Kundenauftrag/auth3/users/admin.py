@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from school.models import Teacher,Student,Subject,Exam,Teasu,Clasu,Clatea, Class
+from school.models import Teacher,Student,Subject,Exam,Teasu,Clasu,Clatea, Class, Stusu
 
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
@@ -30,3 +30,4 @@ admin.site.register(Exam)
 admin.site.register(Teasu)
 admin.site.register(Clasu)
 admin.site.register(Clatea)
+admin.site.register(Stusu)

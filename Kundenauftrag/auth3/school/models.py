@@ -16,7 +16,7 @@ class Teacher(models.Model):
         return self.name
 
 class Student(models.Model):
-    class_id = models.ForeignKey(Class, on_delete=models.CASCADE)
+    klasse = models.ForeignKey(Class, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     first_name = models.CharField(max_length=200)
     user = related.ForeignKey(CustomUser, on_delete=models.CASCADE)

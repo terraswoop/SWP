@@ -1,0 +1,13 @@
+<p>The following students are attending the class</p>
+{% if student_list %}
+<br><br><br><br>
+<ol>
+    {% for student in student_list %}
+    <li><a href="{% url 'TeacherStudent' student.id %}">{{ student.name  }}</a><a href="{% url 'AddExam' student.id %}">Add Exam</a></li>
+    {% endfor %}
+</ol>
+{% else %}
+    <p>No students in this class Niggafaggot</p>
+{% endif %}
+<br><br>
+<a href="{% url 'logged_home' %}">Go back</a>

@@ -1,7 +1,7 @@
 # users/views.py
 from django.urls import reverse_lazy
 from django.views import generic
-from school.models import Teacher, Student, Class, Clatea
+from school.models import Teacher, Student, Class, Clatea, Subject, Stusu, Exam
 from .forms import CustomUserCreationForm
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
@@ -44,7 +44,7 @@ def home(request):
         for t in Teacher.objects.all():
             if(t.user.id==user.id):
                 teacher=t
-        return HttpResponseRedirect(reverse('TeacherHome',args=(teacher.id,)))
+        return HttpResponseRedirect(reverse('TeacherHome', args=(teacher.id,)))
         #return HttpResponse('Nigga Teacher')
     #    return render(request, 'teacher_home.html')
     #    t=loader.get_template('teacher_home.html')
@@ -52,7 +52,11 @@ def home(request):
     else: 
         #if user.groups.filter(name=Student).exists():
         if  l=='Student':
-            return HttpResponseRedirect(reverse('StudentHome', args=None))
+            student=''
+            for s in Student.objects.all():
+                if(s.user.id==user.id):
+                    student=s
+            return HttpResponseRedirect(reverse('StudentHome', args=(student.id,)))
             #return HttpResponse('Nigga Student')
     #    return render(request, 'student_home.html')
     #    t=loader.get_template('student_home.html')
@@ -79,8 +83,25 @@ def teacher_check(user):
 #   template = loader.get_template('teacher_home.html')
 #   return HttpResponse(template.render())
 
-class StudentHome(generic.TemplateView):
+class StudentHome(generic.ListView):
     template_name='student_home.html'
+    context_object_name='stusu_list'
+    def get_queryset(self):
+        s=[]
+        pk=self.kwargs['pk']
+        for i in Stusu.objects.all():
+            stusu=False
+            for j in Subject.objects.all():
+                if(j.id==i.subject.id and i.student.id == pk):
+                    stusu=True
+            if(stusu):
+                s.append(i)
+                stusu=False
+        return s
+
+class BackHome(generic.TemplateView):
+    template_name='home.html'
+
 
 class TeacherHome(generic.ListView):
     #tea= get_object_or_404(Teacher, pk=self.kwargs['pk'])
@@ -98,3 +119,45 @@ class TeacherHome(generic.ListView):
                 l.append(i)
                 clatea=False
         return l
+
+class StudentSubject(generic.ListView):
+    template_name='studentsubject.html'
+    context_object_name='exam_list'
+    def get_queryset(self):
+        e=[]
+        pk=self.kwargs['pk']
+        for i in Exam.objects.all():
+            if(i.stusu.id==pk):
+                e.append(i)
+        return e
+
+class TeacherClass(generic.ListView):
+    template_name='teacherclass.html'
+    context_object_name='student_list'
+    def get_queryset(self):
+        s=[]
+        pk=self.kwargs['pk']
+        for i in Student.objects.all():
+            if(i.klasse.id==pk):
+                s.append(i)
+        return s
+
+class TeacherStudent(generic.ListView):
+    template_name='teacherstudent.html'
+    context_object_name='exam_list'
+    def get_queryset(self):
+        e=[]
+        pk=self.kwargs['pk']
+        for i in Exam.objects.all():
+            if(i.stusu.id==pk):
+                e.append(i)
+        return e
+    
+class AddExam(generic.DetailView):
+    model = Stusu
+    template_name='addexam.html'
+    context_object_name='stusu'
+
+def get_queryset(self):
+    pk=self.kwargs['pk']
+    return Stusu.objects.filter(id==pk)
