@@ -1,27 +1,15 @@
 <!-- templates/home.html -->
 {% extends 'base.html' %}
-{% load bootstrap4 %}
-{% bootstrap_css %}
-<head>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-</head>
 
-<body>
 {% block title %}Home{% endblock %}
 
 {% block content %}
 {% if user.is_authenticated %}
   Hi {{ user.username }}!
-  <p>
-  <a href="{% url 'logged_home' %}" class="btn btn-success" role="button">Home</a>
-  <a href="{% url 'logout' %}" class="btn btn-danger" role="button">logout</a>
-
+  <p><a href="{% url 'logged_home' %}">Home</a></p> | 
+  <p><a href="{% url 'logout' %}">logout</a></p>
 {% else %}
   <p>Welcome to Widzcuntis</p>
   <a href="{% url 'login' %}">login</a>
 {% endif %}
 {% endblock %}
-
-</body>
