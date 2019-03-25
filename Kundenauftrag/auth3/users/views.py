@@ -166,20 +166,27 @@ class TeacherClass(generic.ListView):
 
 class TeacherStudent(generic.ListView):
     template_name='teacherstudent.html'
-    context_object_name='exam_list'
+    context_object_name='stuxam_list'
     def get_queryset(self):
         e=[]
+        s=[]
         pk=self.kwargs['pk']
-        for i in Exam.objects.all():
-            if(i.stusu.id==pk):
+        for i in Stusu.objects.all():
+            if(i.student.id==pk):
+                for j in Exam.objects.all():
+                    if(j.stusu.id==i.id):
+                        e.append(j)
+                s.append(e)
+                e=[]
+        return s
+    
+class AddExam(generic.ListView):
+    template_name='addexam.html'
+    context_object_name='stusu_list'
+    def get_queryset(self):
+        pk=self.kwargs['pk']
+        e=[]
+        for i in Stusu.objects.all():
+            if(i.student.id==pk):
                 e.append(i)
         return e
-    
-class AddExam(generic.DetailView):
-    model = Stusu
-    template_name='addexam.html'
-    context_object_name='stusu'
-
-def get_queryset(self):
-    pk=self.kwargs['pk']
-    return Stusu.objects.filter(id==pk)

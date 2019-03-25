@@ -1,19 +1,23 @@
-{% if exam_list %}
-<p>Deine {{ exam_list.0.stusu.subject }} Noten</p>
+{% if stuxam_list %}
+<p>Deine Noten</p>
+{% for stusu in stuxam_list %}
+<br>
+<p>{{ stusu.0.stusu.subject.name }}</p>
 <table>
     <tr>
         <th>Exam Type</th>
         <th>Mark</th>
     </tr>
-    {% for exam in exam_list %}
+    {% for exam in stusu %}
         <tr>
             <td>{{exam.name}}</td>
             <td>{{exam.grade}}</td>
         </tr>
     {% endfor %}
 </table>
+{% endfor %}
 {% else %}
 <p>You ate all my beans nigga</p>
 {% endif %}
 <br><br>
-<a href="{% url 'ClassTeacher' exam_list.0.stusu.student.id %}">Go back</a>
+<a href="{% url 'ClassTeacher' stuxam_list.0.0.stusu.student.id %}">Go back</a>

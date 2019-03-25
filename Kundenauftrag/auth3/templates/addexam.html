@@ -1,9 +1,12 @@
-<p>Add an exam for {{ stusu.student }}</p><br>
+<p>Add an exam for {{ stusu_list.0.student }}</p><br>
 
-<form action="{% url 'AddedExam' stusu.student.klasse.id %}" method="post">
+<form action="{% url 'AddedExam' stusu_list.0.student.klasse.id %}" method="post">
     {% csrf_token %}
-    <label for="stusu">Subject-Student:</label>
-    <input id="stusu" type="text" name="stusu" value="{{ stusu }}" readonly><br><br>
+    <p>Subject:</p>
+    {% for stusu in stusu_list %}
+        <input type="radio" name="stusu" value="{{ stusu }}">{{ stusu.subject }}<br>
+    {% endfor %}
+    <br><br>
     <label for="Name">Enter Exam-Name:</label><br>
     <input id="name" type="text" name="name"><br><br>
     <label for="grade">Grade:</label><br>
