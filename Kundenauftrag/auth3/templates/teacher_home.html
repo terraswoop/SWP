@@ -7,8 +7,10 @@
     </ul>
     {% endfor %}
 </ul>
-{% else %}
-    <p>No class is signed to you Niggafaggot</p>
-{% endif %}
 <br><br>
 <a href="{% url 'BackHome' %}">Go back</a>
+{% else %}
+    <p>No class is signed to you Niggafaggot</p>
+    <br><br>
+    <a href="{% url 'BackHome' %}">Go home</a>
+{% endif %}

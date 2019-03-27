@@ -1,3 +1,4 @@
+{% if stusu_list %}
 <p>Add an exam for {{ stusu_list.0.student }}</p><br>
 
 <form action="{% url 'AddedExam' stusu_list.0.student.klasse.id %}" method="post">
@@ -15,3 +16,7 @@
     <input id="value" type="number" name="value"><br><br>
     <input type="submit" value="Save">
 </form>
+{% else %}
+<p>You are not supposed to be here!</p>
+<a href="{% url 'BackHome' %}">Go back</a>
+{% endif %}

@@ -16,8 +16,10 @@
     {% endfor %}
 </table>
 {% endfor %}
-{% else %}
-<p>You ate all my beans nigga</p>
-{% endif %}
 <br><br>
 <a href="{% url 'ClassTeacher' stuxam_list.0.0.stusu.student.id %}">Go back</a>
+{% else %}
+<p>You ate all my beans nigga</p>
+<br><br>
+<a href="{% url 'BackHome' %}">Go Home</a>
+{% endif %}

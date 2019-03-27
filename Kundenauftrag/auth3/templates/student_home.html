@@ -7,8 +7,10 @@
     <li><a href="{% url 'StudentSubject' stusu.id %}">{{ stusu.subject.name  }}</a></li>
     {% endfor %}
 </ol>
-{% else %}
-    <p>No Subjects signed to you Niggafaggot</p>
-{% endif %}
 <br><br>
 <a href="{% url 'BackHome' %}">Go back</a>
+{% else %}
+    <p>No Subjects signed to you Niggafaggot</p>
+    <br><br>
+<a href="{% url 'BackHome' %}">Go home</a>
+{% endif %}

@@ -1,7 +1,7 @@
 # users/views.py
 from django.urls import reverse_lazy
 from django.views import generic
-from school.models import Teacher, Student, Class, Clatea, Subject, Stusu, Exam
+from school.models import Teacher, Student, Class, Clatea, Subject, Stusu, Exam, Teasu
 from .forms import CustomUserCreationForm, ExamForm
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
@@ -109,8 +109,16 @@ class StudentHome(generic.ListView):
     template_name='student_home.html'
     context_object_name='stusu_list'
     def get_queryset(self):
-        s=[]
         pk=self.kwargs['pk']
+        if(self.request.user.is_authenticated):
+            user=  self.request.user
+        authorized=False
+        for i in Student.objects.all():
+            if(i.id==pk and i.user.id==user.id):
+                authorized=True
+        s=[]
+        if(authorized==False):
+            return s
         for i in Stusu.objects.all():
             stusu=False
             for j in Subject.objects.all():
@@ -132,6 +140,14 @@ class TeacherHome(generic.ListView):
     def get_queryset(self):
         l=[]
         pk=self.kwargs['pk']
+        if(self.request.user.is_authenticated):
+            user=  self.request.user
+        authorized=False
+        for i in Teacher.objects.all():
+            if(i.id==pk and i.user.id==user.id):
+                authorized=True
+        if(authorized==False):
+            return l
         for i in Class.objects.all():
             clatea=False
             for j in Clatea.objects.all():
@@ -148,6 +164,14 @@ class StudentSubject(generic.ListView):
     def get_queryset(self):
         e=[]
         pk=self.kwargs['pk']
+        if(self.request.user.is_authenticated):
+            user=  self.request.user
+        authorized=False
+        for i in Stusu.objects.all():
+            if(i.id==pk and i.student.user.id==user.id):
+                authorized=True
+        if(authorized==False):
+            return e
         for i in Exam.objects.all():
             if(i.stusu.id==pk):
                 e.append(i)
@@ -159,6 +183,14 @@ class TeacherClass(generic.ListView):
     def get_queryset(self):
         s=[]
         pk=self.kwargs['pk']
+        if(self.request.user.is_authenticated):
+            user=  self.request.user
+        authorized=False
+        for i in Clatea.objects.all():
+            if(i.klasse.id==pk and i.teacher.user.id==user.id):
+                authorized=True
+        if(authorized==False):
+            return s
         for i in Student.objects.all():
             if(i.klasse.id==pk):
                 s.append(i)
@@ -171,6 +203,15 @@ class TeacherStudent(generic.ListView):
         e=[]
         s=[]
         pk=self.kwargs['pk']
+        if(self.request.user.is_authenticated):
+            user=  self.request.user
+        authorized=False
+        for i in Clatea.objects.all():
+            for j in Student.objects.all():
+                if(j.id==pk and i.klasse.id==j.klasse.id and i.teacher.user.id==user.id):
+                    authorized=True
+        if(authorized==False):
+            return s
         for i in Stusu.objects.all():
             if(i.student.id==pk):
                 for j in Exam.objects.all():
@@ -186,6 +227,15 @@ class AddExam(generic.ListView):
     def get_queryset(self):
         pk=self.kwargs['pk']
         e=[]
+        if(self.request.user.is_authenticated):
+            user=  self.request.user
+        authorized=False
+        for i in Clatea.objects.all():
+            for j in Student.objects.all():
+                if(j.id==pk and i.klasse.id==j.klasse.id and i.teacher.user.id==user.id):
+                    authorized=True
+        if(authorized==False):
+            return e
         for i in Stusu.objects.all():
             if(i.student.id==pk):
                 e.append(i)
