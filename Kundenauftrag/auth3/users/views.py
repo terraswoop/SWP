@@ -211,6 +211,7 @@ class TeacherStudent(generic.ListView):
     def get_queryset(self):
         e=[]
         s=[]
+        user=''
         pk=self.kwargs['pk']
         if(self.request.user.is_authenticated):
             user=  self.request.user
@@ -221,10 +222,14 @@ class TeacherStudent(generic.ListView):
                     authorized=True
         if(authorized==False):
             return s
+        t=''
+        for i in Teasu.objects.all():
+            if(i.teacher.user.id==user.id):
+                t=i
         for i in Stusu.objects.all():
             if(i.student.id==pk):
                 for j in Exam.objects.all():
-                    if(j.stusu.id==i.id):
+                    if(j.stusu.id==i.id and j.stusu.subject.id==t.subject.id):
                         e.append(j)
                 s.append(e)
                 e=[]
