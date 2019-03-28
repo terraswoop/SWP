@@ -52,6 +52,15 @@ def addedExam(request, pk):
             l=i
     return HttpResponseRedirect(reverse('ClassTeacher', args=(l.id,)))
 
+def deleteExam(request, pk):
+    e=''
+    ref_id=''
+    for i in Exam.objects.all():
+        if(i.id==pk):
+            e=i
+            ref_id=i.stusu.student.id
+    e.delete()
+    return HttpResponseRedirect(reverse('TeacherStudent', args=(ref_id,))) 
 def home(request):
     #teacher = Group.objects.get(name='teacher')
     #student = Group.objects.get(name='Student')

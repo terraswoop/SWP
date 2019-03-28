@@ -10,6 +10,7 @@ urlpatterns = [
     path('home/logged_t/class/add_exam/<int:pk>', views.AddExam.as_view(), name='AddExam'),
     path('home/logged_t/class/added_exam/<int:pk>', views.addedExam, name='AddedExam'),
     path('home/logged_t/class/student/<int:pk>', views.TeacherStudent.as_view(), name='TeacherStudent'),
+    path('home/logged_t/class/student/delete_exam/<int:pk>', views.deleteExam, name='DeleteExam'),
     path('home/', views.home, name='logged_home'),
     path('', views.BackHome.as_view(), name='BackHome')
 ]
