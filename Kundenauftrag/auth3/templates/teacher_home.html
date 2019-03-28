@@ -1,16 +1,128 @@
-<p>Professor {{ user.username }}, folgende Klassen sind ihnen zugewiesen:</p>
-<br><br><br><br>
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+
+<head>
+    <title>Student Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    
+</head>
+<style>
+
+</style>
+
+<body>
+{% block content %}
 {% if class_list %}
-    <ul>
-    {% for class in class_list %}
-    <li><a href="{% url 'ClassTeacher' class.id %}">{{ class.class_name }}</a></li>
-    </ul>
-    {% endfor %}
-</ul>
-<br><br>
-<a href="{% url 'BackHome' %}">Go back</a>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <a class="navbar-brand" href="{% url 'BackHome' %}">Widzcuntis - Teacher</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'BackHome' %}">Go back</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  
+  <div role="alert" aria-live="assertive" aria-atomic="true" style="position: relative; min-height: 0px;" >
+    <div class="toast" data-autohide="false">
+        <div class="toast-header">
+          <strong class="mr-auto text-success">Hello {{ user.username }} !</strong>
+          <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+        </div>
+        <div class="toast-body">
+            You are teaching theses classes</div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-3 container">
+
+    <div class="card width=75 bg-success text-white rounded datee">
+      <h2 class="card-title text-center">
+      <div class="d-flex flex-wrap justify-content-center mt-2">
+        <p id="demo" class="datum"></p>
+      </div>
+      </h3>
+    </div>
+
+  <div class="card width=75 bg-success text-white rounded clock">
+    <h3 class="card-title text-center">
+    <div class="d-flex flex-wrap justify-content-center mt-2">
+     <a><span class="badge hours"></span></a> <p class="colon">:</p>
+     <a><span class="badge min"></span></a> <p class="colon">:</p>
+     <a><span class="badge sec"></span></a>
+    </div>
+    </h3>
+  </div>
+
+  </div>
+  <p>   </p>
+
+        {% for class in class_list %}
+        <div class="card cardgrade" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{ class.class_name  }}</h5>
+              <p class="card-text">Here you can view your Students for class {{ class.class_name  }}</p>
+              <a href="{% url 'ClassTeacher' class.id %}" class="btn btn-success">view class</a>
+            </div>
+        </div>
+        {% endfor %}
+
+<script>
+
+        $(document).ready(function() {
+        setInterval( function() {
+        var hours = new Date().getHours();
+        $(".hours").html(( hours < 10 ? "0" : "" ) + hours);
+        }, 1000);
+        setInterval( function() {
+        var minutes = new Date().getMinutes();
+        $(".min").html(( minutes < 10 ? "0" : "" ) + minutes);
+        },1000);
+        setInterval( function() {
+        var seconds = new Date().getSeconds();
+        $(".sec").html(( seconds < 10 ? "0" : "" ) + seconds);
+        },1000);
+        });
+            
+            $(document).ready(function(){
+              $('.toast').toast({animation: true});
+              $('.toast').toast('show');
+            });
+        
+              var d = new Date();
+              document.getElementById("demo").innerHTML = d.toDateString();
+
+$( ".cardgrade" ).hover(
+  function() {
+    $(this).addClass('shadow-lg').css('cursor', 'pointer'); 
+  }, function() {
+    $(this).removeClass('shadow-lg');
+  }
+);
+</script>
+
 {% else %}
-    <p>No class is signed to you Niggafaggot</p>
-    <br><br>
-    <a href="{% url 'BackHome' %}">Go home</a>
+    <p>There are no entries or you are not authorized.</p>
+    <a href="{% url 'BackHome' %}">Go Home</a>
 {% endif %}
+{% endblock %}
+
+</body>

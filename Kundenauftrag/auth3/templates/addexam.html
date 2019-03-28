@@ -1,22 +1,123 @@
-{% if stusu_list %}
-<p>Add an exam for {{ stusu_list.0.student }}</p><br>
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
 
-<form action="{% url 'AddedExam' stusu_list.0.student.klasse.id %}" method="post">
-    {% csrf_token %}
-    <p>Subject:</p>
-    {% for stusu in stusu_list %}
-        <input type="radio" name="stusu" value="{{ stusu }}">{{ stusu.subject }}<br>
-    {% endfor %}
-    <br><br>
-    <label for="Name">Enter Exam-Name:</label><br>
-    <input id="name" type="text" name="name"><br><br>
-    <label for="grade">Grade:</label><br>
-    <input id="grade" type="number" name="grade"><br><br>
-    <label for="value">Value:</label><br>
-    <input id="value" type="number" name="value"><br><br>
-    <input type="submit" value="Save">
-</form>
+
+<head>
+    <title>Student Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    
+</head>
+<style>
+
+</style>
+
+<body>
+{% block content %}
+{% if stusu_list %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <a class="navbar-brand" href="{% url 'BackHome' %}">Widzcuntis - Teacher</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav">
+            <li class="nav-item">
+                    <a class="nav-link" href="{% url 'ClassTeacher' stusu_list.0.student.klasse.id %}">Go back</a>
+                  </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="col-md-3 container">
+    <div class="card width=75 bg-success text-white rounded datee">
+      <h2 class="card-title text-center">
+      <div class="d-flex flex-wrap justify-content-center mt-2">
+        <p id="demo" class="datum"></p>
+      </div>
+      </h3>
+    </div>
+
+  <div class="card width=75 bg-success text-white rounded clock">
+    <h3 class="card-title text-center">
+    <div class="d-flex flex-wrap justify-content-center mt-2">
+     <a><span class="badge hours"></span></a> <p class="colon">:</p>
+     <a><span class="badge min"></span></a> <p class="colon">:</p>
+     <a><span class="badge sec"></span></a>
+    </div>
+    </h3>
+  </div>
+
+  </div>
+  <p>   </p>        
+  <div class="addexam">
+        <div class="card cardgrade2">
+                <div class="card-body">
+                  <h5 class="card-title">Add an exam for Student {{ stusu_list.0.student }}</h5>
+                  <form action="{% url 'AddedExam' stusu_list.0.student.klasse.id %}" method="post">
+                        {% csrf_token %}
+                        <p>Subject:</p>
+                        {% for stusu in stusu_list %}
+                            <input type="radio" name="stusu" value="{{ stusu }}">{{ stusu.subject }}<br>
+                        {% endfor %}
+                        <br>
+                        <label for="Name">Enter Exam-Name:</label><br>
+                        <input id="name" type="text" name="name"><br><br>
+                        <label for="grade">Grade:</label><br>
+                        <input id="grade" type="number" name="grade"><br><br>
+                        <label for="value">Value:</label><br>
+                        <input id="value" type="number" name="value"><br><br>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </form>
+                </div>
+            </div>
+
+</div>
+
+<script>
+
+        $(document).ready(function() {
+        setInterval( function() {
+        var hours = new Date().getHours();
+        $(".hours").html(( hours < 10 ? "0" : "" ) + hours);
+        }, 1000);
+        setInterval( function() {
+        var minutes = new Date().getMinutes();
+        $(".min").html(( minutes < 10 ? "0" : "" ) + minutes);
+        },1000);
+        setInterval( function() {
+        var seconds = new Date().getSeconds();
+        $(".sec").html(( seconds < 10 ? "0" : "" ) + seconds);
+        },1000);
+        });
+            
+            $(document).ready(function(){
+              $('.toast').toast({animation: true});
+              $('.toast').toast('show');
+            });
+        
+              var d = new Date();
+              document.getElementById("demo").innerHTML = d.toDateString();
+
+$( ".cardgrade" ).hover(
+  function() {
+    $(this).addClass('shadow-lg').css('cursor', 'pointer'); 
+  }, function() {
+    $(this).removeClass('shadow-lg');
+  }
+);
+</script>
 {% else %}
 <p>You are not supposed to be here!</p>
-<a href="{% url 'BackHome' %}">Go back</a>
+<a href="{% url 'BackHome' %}">Go home</a>
 {% endif %}
+{% endblock %}
+</body>
