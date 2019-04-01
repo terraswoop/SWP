@@ -227,7 +227,7 @@ class TeacherStudent(generic.ListView):
             if(i.teacher.user.id==user.id):
                 t=i
         for i in Stusu.objects.all():
-            if(i.student.id==pk):
+            if(i.student.id==pk and i.subject.id==t.subject.id):
                 for j in Exam.objects.all():
                     if(j.stusu.id==i.id and j.stusu.subject.id==t.subject.id):
                         e.append(j)
