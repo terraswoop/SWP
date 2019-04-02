@@ -244,13 +244,16 @@ class AddExam(generic.ListView):
         if(self.request.user.is_authenticated):
             user=  self.request.user
         authorized=False
+        lehrer=""
         for i in Clatea.objects.all():
             for j in Student.objects.all():
                 if(j.id==pk and i.klasse.id==j.klasse.id and i.teacher.user.id==user.id):
                     authorized=True
+                    lehrer=i.teacher.id
         if(authorized==False):
             return e
-        for i in Stusu.objects.all():
-            if(i.student.id==pk):
-                e.append(i)
-        return e
+        for i in Teasu.objects.all():
+            for j in Stusu.objects.all():
+                if(j.student.id==pk and i.subject.id==j.subject.id and i.teacher.id==lehrer):
+                    e.append(j)
+            return e
