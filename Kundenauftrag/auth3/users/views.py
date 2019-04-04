@@ -230,7 +230,8 @@ class TeacherStudent(generic.ListView):
                         for j in Exam.objects.all():
                             if(j.stusu.id==i.id and j.stusu.subject.id==t.subject.id):
                                 e.append(j)
-                        s.append(e)
+                        if(len(e)>0):
+                            s.append(e)
                         e=[]
         print(s)
         return s
