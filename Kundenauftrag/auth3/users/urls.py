@@ -1,6 +1,7 @@
 # users/urls.py
 from django.urls import path
 from . import views
+from django.contrib import admin    
 
 urlpatterns = [
     path('home/logged_s/<int:pk>', views.StudentHome.as_view(), name='StudentHome'),
@@ -12,5 +13,6 @@ urlpatterns = [
     path('home/logged_t/class/student/<int:pk>', views.TeacherStudent.as_view(), name='TeacherStudent'),
     path('home/logged_t/class/student/delete_exam/<int:pk>', views.deleteExam, name='DeleteExam'),
     path('home/', views.home, name='logged_home'),
-    path('', views.BackHome.as_view(), name='BackHome')
+    path('', views.BackHome.as_view(), name='BackHome'),
+    path('admin/', admin.site.urls, name="admin")
 ]

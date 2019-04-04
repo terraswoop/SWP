@@ -113,6 +113,11 @@ $(".sec").html(( seconds < 10 ? "0" : "" ) + seconds);
         <a class="nav-link" href="{% url 'login' %}">Login</a>
       </li>
     </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item adminbutton">
+        <a class ="nav-link" href="{% url 'admin:index' %}">Admin</a>
+      </li>
+    </ul>
   </div>
 </nav>
 
