@@ -223,16 +223,16 @@ class TeacherStudent(generic.ListView):
         if(authorized==False):
             return s
         t=''
-        for i in Teasu.objects.all():
-            if(i.teacher.user.id==user.id):
-                t=i
-        for i in Stusu.objects.all():
-            if(i.student.id==pk and i.subject.id==t.subject.id):
-                for j in Exam.objects.all():
-                    if(j.stusu.id==i.id and j.stusu.subject.id==t.subject.id):
-                        e.append(j)
-                s.append(e)
-                e=[]
+        for t in Teasu.objects.all():
+            if(t.teacher.user.id==user.id):
+                for i in Stusu.objects.all():
+                    if(i.student.id==pk and i.subject.id==t.subject.id):
+                        for j in Exam.objects.all():
+                            if(j.stusu.id==i.id and j.stusu.subject.id==t.subject.id):
+                                e.append(j)
+                        s.append(e)
+                        e=[]
+        print(s)
         return s
     
 class AddExam(generic.ListView):
@@ -253,7 +253,9 @@ class AddExam(generic.ListView):
         if(authorized==False):
             return e
         for i in Teasu.objects.all():
+            
             for j in Stusu.objects.all():
                 if(j.student.id==pk and i.subject.id==j.subject.id and i.teacher.id==lehrer):
                     e.append(j)
-            return e
+        print(e)
+        return e

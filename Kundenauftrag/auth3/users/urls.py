@@ -1,8 +1,8 @@
 # users/urls.py
 from django.urls import path
 from . import views
-from django.contrib import admin    
-
+from django.contrib import admin  
+  
 urlpatterns = [
     path('home/logged_s/<int:pk>', views.StudentHome.as_view(), name='StudentHome'),
     path('home/logged_s/subject/<int:pk>', views.StudentSubject.as_view(), name='StudentSubject'),
