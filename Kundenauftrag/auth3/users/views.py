@@ -1,7 +1,7 @@
 # users/views.py
 from django.urls import reverse_lazy
 from django.views import generic
-from school.models import Teacher, Student, Class, Clatea, Subject, Stusu, Exam, Teasu
+from school.models import Teacher, Student, Class, Clasu, Clatea, Subject, Stusu, Exam, Teasu
 from .forms import CustomUserCreationForm, ExamForm
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
@@ -200,9 +200,61 @@ class TeacherClass(generic.ListView):
                 authorized=True
         if(authorized==False):
             return s
+        Student.objects.order_by("name")
         for i in Student.objects.all():
             if(i.klasse.id==pk):
                 s.append(i)
+        return s
+
+class ClassList(generic.ListView):
+    template_name='classlist.html'
+    context_object_name='subject_list'
+    def get_queryset(self):
+        s=[]
+        pk=self.kwargs['pk']
+        if(self.request.user.is_authenticated):
+            user=  self.request.user
+        authorized=False
+        for i in Clatea.objects.all():
+            if(i.klasse.id==pk and i.teacher.user.id==user.id):
+                authorized=True
+        if(authorized==False):
+            return s
+        for i in Clasu.objects.all():
+            if(i.klasse.id==pk):
+               s.append(i)
+        return s
+
+class MarkTable(generic.ListView):
+    template_name='marktable.html'
+    context_object_name='stusu_list'
+    def get_queryset(self):
+        s=[]
+        pk=self.kwargs['pk']
+        if(self.request.user.is_authenticated):
+            user=  self.request.user
+        authorized=False
+        lehrer=""
+        klassubs=""
+        clasu=""
+        for i in Clasu.objects.all():
+            if(i.id==pk):
+                clasu=i
+        for i in Teacher.objects.all():
+            if(i.user.id==user.id):
+                lehrer=i
+        for i in Clatea.objects.all():
+                if(clasu.klasse.id==i.klasse.id and i.teacher.id==lehrer.id):
+                    authorized=True 
+                    klassubs=i   
+        if(authorized==False):
+            return s
+        Student.objects.order_by("name")
+        for i in Student.objects.filter(klasse__id=klassubs.klasse.id):
+            e=[]
+            for j in Exam.objects.filter(stusu__student__id=i.id, stusu__subject__id=clasu.subject.id):
+                e.append(j)
+            s.append(e)
         return s
 
 class TeacherStudent(generic.ListView):
@@ -222,7 +274,6 @@ class TeacherStudent(generic.ListView):
                     authorized=True
         if(authorized==False):
             return s
-        t=''
         for t in Teasu.objects.all():
             if(t.teacher.user.id==user.id):
                 for i in Stusu.objects.all():
