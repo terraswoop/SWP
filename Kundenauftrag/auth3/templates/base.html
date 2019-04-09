@@ -15,15 +15,16 @@
 
 <style>
 
-body {
-  background: white url("/static/auth3/images/reclaimer.png") no-repeat;
-}
-
 .cardtitle1,.text-center{
 font-family: 'Helvetica';
 font-size: 60px;
 }
 
+.weather1{
+  position: absolute;
+  bottom: 20px;
+  left: 0px;
+}
 .cardgrade {
   display:inline-block;
   margin:10px;
@@ -83,6 +84,14 @@ width:450px;
 
 .adminbutton{
   float: right;
+}
+@media only screen and (min-width: 1080px) {
+ 
+  body {
+  background: white url("/static/school/images/reclaimer1.png") no-repeat;
+  background-position: right bottom; 
+}
+
 }
 
 @media only screen and (max-width: 1000px) {

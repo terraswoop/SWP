@@ -46,7 +46,7 @@
           <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
         </div>
         <div class="toast-body">
-            You are teaching theses classes</div>
+            You are teaching these classes</div>
       </div>
     </div>
   </div>
@@ -79,9 +79,9 @@
         <div class="card cardgrade" style="width: 18rem;">
             <div class="card-body">
               <h5 class="card-title">{{ class.class_name  }}</h5>
-              <p class="card-text">Here you can view your Students for class {{ class.class_name  }}</p>
-              <a href="{% url 'ClassTeacher' class.id %}" class="btn btn-success">Configure/ View specific Students</a><br><br>
-              <a href="{% url 'ListClass' class.id %}" class="btn btn-success">Show Mark List</a>
+              <p class="card-text">Here you can view your Students or Subjects for class {{ class.class_name  }}</p>
+              <a href="{% url 'ClassTeacher' class.id %}" class="btn btn-success">Show Students</a><br><br>
+              <a href="{% url 'ListClass' class.id %}" class="btn btn-success">Show Subjects</a>
             </div>
         </div>
         {% endfor %}
