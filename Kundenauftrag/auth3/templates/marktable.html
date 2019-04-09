@@ -79,13 +79,15 @@
           <th>Students:</th>
         <tr></tr>
         {% for exam_list in stusu_list %}
+        {% if exam_list.0.stusu %}
         <tr>
           <th>{{ exam_list.0.stusu.student }}</th>
           {% for exam in exam_list %}
             <td>{{ exam }}: {{ exam.grade }}</td>
           {% endfor %}
         </tr>
-          {% endfor %}
+        {% endif %}
+        {% endfor %}
         
 
     </tbody>
