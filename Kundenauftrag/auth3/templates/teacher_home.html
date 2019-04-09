@@ -80,7 +80,8 @@
             <div class="card-body">
               <h5 class="card-title">{{ class.class_name  }}</h5>
               <p class="card-text">Here you can view your Students for class {{ class.class_name  }}</p>
-              <a href="{% url 'ClassTeacher' class.id %}" class="btn btn-success">view class</a>
+              <a href="{% url 'ClassTeacher' class.id %}" class="btn btn-success">Configure/ View specific Students</a><br><br>
+              <a href="{% url 'ListClass' class.id %}" class="btn btn-success">Show Mark List</a>
             </div>
         </div>
         {% endfor %}
