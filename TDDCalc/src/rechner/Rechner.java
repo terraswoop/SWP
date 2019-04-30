@@ -44,7 +44,7 @@ public class Rechner {
 
 	public static void main(String[] args) throws TooManyArgsException, NumberFormatException, NegativeException {
 
-		System.out.println(sum("3,4,5"));
+	
 
 	}
 
