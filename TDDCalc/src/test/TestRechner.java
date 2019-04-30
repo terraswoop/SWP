@@ -17,12 +17,12 @@ public class TestRechner {
 	public void validInput() throws TooManyArgsException, NumberFormatException, NegativeException {
 		assertEquals(8, Rechner.sum("3,5"));
 	}
-	@Test(expected = TooManyArgsException.class)
+	@Test
 	public void tooManyArgs() throws TooManyArgsException, NumberFormatException, NegativeException{
 		Rechner.sum("3,4,5");
 	}
 	
-	@Test(expected = NumberFormatException.class)
+	@Test
 	public void syntaxDelimiter() throws NumberFormatException, TooManyArgsException, NegativeException{
 		Rechner.sum("3000;4");
 	}

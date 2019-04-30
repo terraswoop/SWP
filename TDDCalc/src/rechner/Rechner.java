@@ -15,10 +15,17 @@ public class Rechner {
 	 * @throws NegativeException 
 	 */
 	public static int sum(String input) throws TooManyArgsException, NumberFormatException, NegativeException {
-		String[] seperatedValues = input.split(",");
-		if(seperatedValues.length > 2) {
-			throw new TooManyArgsException();
+			
+		String[] seperatedValues;
+		if(input.contains(",")) {
+			seperatedValues = input.split(",");
 		}
+		else {
+			seperatedValues = input.split(";");
+		}
+		//if(seperatedValues.length > 2) {
+		//	throw new TooManyArgsException();
+		//}
 		if(seperatedValues.length<2){
 			throw new NumberFormatException();
 		}
@@ -27,13 +34,17 @@ public class Rechner {
 				throw new NegativeException();
 			}
 		}
-		return Integer.parseInt(seperatedValues[0]) + Integer.parseInt(seperatedValues[1]);
+		int count=0;
+		for(int i=0;i<seperatedValues.length;i++) {
+			count+=Integer.parseInt(seperatedValues[i]);
+		}
+		return count;
 
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws TooManyArgsException, NumberFormatException, NegativeException {
 
-		// TODO Auto-generated method stub
+		System.out.println(sum("3,4,5"));
 
 	}
 
