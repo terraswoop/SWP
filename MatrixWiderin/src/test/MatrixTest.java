@@ -2,15 +2,15 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import matrix.BadMatrix;
 import matrix.Matrix;
 
-class MatrixTest {
+public class MatrixTest {
 
 	@Test
-	void skalarTest() throws BadMatrix {
+	public void skalarTest() throws BadMatrix {
 		Matrix m=new Matrix(2,4);
 		for(int i=0;i<2;i++) {
 			for(int j=1;j<=4;j++) {
