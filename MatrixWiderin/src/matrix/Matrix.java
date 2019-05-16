@@ -32,6 +32,11 @@ public class Matrix implements Ifunction{
 			throw new BadMatrix();
 		}
 	}
+	public static void sigmoidFunc(float[] f) {
+		for(int i=0;i<f.length;i++) {
+			f[i]=(float) (1/(Math.exp(-f[i])+1));
+		}
+	}
 	public void skalarMult(float s) throws BadMatrix{
 		try {
 		for (int i = 0; i < r; i++) {
@@ -175,7 +180,13 @@ public class Matrix implements Ifunction{
 		}
 		return e;
 	}
-
+	public static float[] addVector(float[] n, float[] v) {
+		float[] nv=new float[n.length];
+		for(int i=0;i<n.length;i++) {
+			nv[i]=n[i]+v[i];
+		}
+		return nv;
+	}
 	@Override
 	public boolean equals(Matrix m) {
 		for(int i=0;i<r;i++) {

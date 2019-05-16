@@ -47,6 +47,21 @@ public class MatrixTest {
 		assertEquals(true,n.equals(m));
 	}
 	@Test
+	public void vertMultTest2() throws LengthMismatch, BadMatrix {
+		Matrix m=new Matrix(2,2);
+		float[] v= {1,2};
+		for(int i=0;i<2;i++) {
+			for(int j=0;j<2;j++) {
+				m.mat[i][j]=j+1;
+			}
+		}
+		float[] nv= {5,5};
+		v=Matrix.vertMult(m, v);
+		for(int i=0;i<nv.length;i++) {
+		assertEquals(v[i],nv[i],0.0001);
+		}
+	}
+	@Test
 	public void sigmoidTest() throws BadMatrix {
 		Matrix m=new Matrix(2,4);
 		for(int i=0;i<2;i++) {
