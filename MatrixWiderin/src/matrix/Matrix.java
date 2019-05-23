@@ -2,8 +2,8 @@ package matrix;
 
 public class Matrix implements Ifunction{
 	public float[][] mat;
-	int r;
-	int c;
+	public int r;
+	public int c;
 
 	public Matrix(int r, int c) {
 		mat = new float[r][c];
@@ -37,6 +37,11 @@ public class Matrix implements Ifunction{
 			f[i]=(float) (1/(Math.exp(-f[i])+1));
 		}
 	}
+	public static float sigmoidFunc(float f) {
+		
+			return (float) (1/(Math.exp(-f)+1));
+		}
+	
 	public void skalarMult(float s) throws BadMatrix{
 		try {
 		for (int i = 0; i < r; i++) {
@@ -94,7 +99,7 @@ public class Matrix implements Ifunction{
 		return nv;
 	}
 	public static float[] vertMult(Matrix m, float[] v) throws LengthMismatch, BadMatrix {
-		float[] nv=new float[v.length];
+		float[] nv=new float[m.r];
 		if(v.length!=m.c) {
 			throw new LengthMismatch();
 		}
