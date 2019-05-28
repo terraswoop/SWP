@@ -12,6 +12,13 @@ public class Neuronalnetz {
 	ArrayList<Matrix> weights=new ArrayList<Matrix>();
 	ArrayList<float[]> biases = new ArrayList<float[]>();
 	public float[] outputn;
+	/**
+	 * @param inputn Array der Inputneuronen
+	 * @param hln Hidden Layer ArrayList
+	 * @param weights Alle Gewichtematrixen, länge der Arraylist muss um 1 größer sein als der hln-Array
+	 * @param biases Biasmatrix. Längen müssen mit HiddenLayer-anzahl und Länge übereinstimmen
+	 * @param outputn Array der Outputneuronen
+	 */
 	public Neuronalnetz(float[] inputn, ArrayList<float[]> hln, ArrayList<Matrix> weights, ArrayList<float[]> biases, float[] outputn) {
 		this.inputn=inputn;
 		this.hln=hln;
@@ -19,7 +26,15 @@ public class Neuronalnetz {
 		this.biases=biases;
 		this.outputn=outputn;
 	}
-	public Neuronalnetz(int in, int[] hl, int ou) {
+	/**
+	 * 
+	 * @param in Anzahl der Inputneuronen
+	 * @param hl Anzahl und Länge der Hidden-Layer
+	 * @param ou Anzahl der Outputneuronen
+	 * @param grange Wertebereich der Gewichte
+	 * @param brange Wertebereich der Biases
+	 */
+	public Neuronalnetz(int in, int[] hl, int ou,float grange, float brange) {
 		inputn=new float[in];
 		outputn=new float[ou];
 		int lb=in;
@@ -27,7 +42,7 @@ public class Neuronalnetz {
 			Matrix m=new Matrix(hl[i],lb);
 			for(int j=0;j<hl[i];j++) {
 				for(int k=0;k<lb;k++) {
-					m.mat[j][k]=(float)Math.random()*2-1;
+					m.mat[j][k]=(float)Math.random()*grange-grange/2;
 					
 				}
 			}
@@ -35,14 +50,14 @@ public class Neuronalnetz {
 			lb=hl[i];
 			float[] b=new float[lb];
 			for(int j=0;j<lb;j++) {
-				b[j]=(float)(Math.random()*2-1);
+				b[j]=(float)(Math.random()*brange-brange/2);
 			}
 			biases.add(b);
 		}
 		Matrix m=new Matrix(ou,lb);
 		for(int j=0;j<ou;j++) {
 			for(int k=0;k<lb;k++) {
-				m.mat[j][k]=(float)Math.random()*2-1;
+				m.mat[j][k]=(float)(Math.random()*grange-grange/2);
 				
 			}
 		}
@@ -74,7 +89,15 @@ public class Neuronalnetz {
 		outputn=temphln;
 		
 	}
-	public Neuronalnetz paaren(Neuronalnetz n) {
+	/**
+	 * 
+	 * @param n Netz, mit dem gepaart werden soll
+	 * @param pvalue Gibt an wie viel vom jeweiligen Netz übernommen werden soll (2 entspricht 50% von beiden,
+	 *  höhere Werte bedeutet mehr vom Netz n wird übernommen
+	 * @param mutvalue Gibt an, wie groß die Auswirkungen einer Mutation sein können.
+	 * @return
+	 */
+	public Neuronalnetz paaren(Neuronalnetz n,float pvalue, float mutvalue) {
 		ArrayList<Matrix> weightsneu=new ArrayList<Matrix>();
 		ArrayList<float[]> biasesneu = new ArrayList<float[]>();
 		for(int i=0;i<weights.size();i++) {
@@ -82,10 +105,10 @@ public class Neuronalnetz {
 			for(int j=0;j<weights.get(i).mat.length;j++) {
 				
 				for(int k=0;k<weights.get(i).mat[j].length;k++) {
-					if(j%2!=0) {
+					if(j%pvalue!=0) {
 						float zuf=(float)Math.random();
 						if(zuf<=0.05) {
-							mn.mat[j][k]=this.weights.get(i).mat[j][k]*(float)(Math.random()*2-1);
+							mn.mat[j][k]=this.weights.get(i).mat[j][k]+(float)(Math.random()*mutvalue-mutvalue/2);
 						}
 						else {
 						mn.mat[j][k]=this.weights.get(i).mat[j][k];
@@ -94,7 +117,7 @@ public class Neuronalnetz {
 					else {
 						float zuf=(float)Math.random();
 						if(zuf<=0.05) {
-							mn.mat[j][k]=n.weights.get(i).mat[j][k]*(float)(Math.random()*2-1);
+							mn.mat[j][k]=n.weights.get(i).mat[j][k]+(float)(Math.random()*mutvalue-mutvalue/2);
 						}
 						else {
 						mn.mat[j][k]=n.weights.get(i).mat[j][k];
@@ -120,8 +143,8 @@ public class Neuronalnetz {
 	}
 	public static void main(String[] args) throws LengthMismatch, BadMatrix {
 		int[] a= {10,5,4};
-		Neuronalnetz n=new Neuronalnetz(210,a,4);
-		Neuronalnetz m=new Neuronalnetz(210,a,4);
+		Neuronalnetz n=new Neuronalnetz(210,a,4,2,2);
+		Neuronalnetz m=new Neuronalnetz(210,a,4,2,2);
 		n.randomIn(n.inputn);
 		m.inputn=n.inputn;
 		n.cycle();
@@ -134,8 +157,8 @@ public class Neuronalnetz {
 			System.out.printf(" %f;", m.outputn[i]);
 		}
 		System.out.println();
-		Neuronalnetz o=n.paaren(m);
-		o.inputn=m.inputn;
+		Neuronalnetz o=n.paaren(m,2,1);
+		o.inputn=n.inputn;
 		o.cycle();
 		for(int i=0;i<o.outputn.length;i++) {
 			System.out.printf(" %f;", o.outputn[i]);
