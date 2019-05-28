@@ -27,24 +27,26 @@ public class Neuronalnetz {
 			Matrix m=new Matrix(hl[i],lb);
 			for(int j=0;j<hl[i];j++) {
 				for(int k=0;k<lb;k++) {
-					m.mat[j][k]=(float)Math.random()*2000-1000;
-					weights.add(m);
+					m.mat[j][k]=(float)Math.random()*2-1;
+					
 				}
 			}
+			weights.add(m);
 			lb=hl[i];
 			float[] b=new float[lb];
 			for(int j=0;j<lb;j++) {
-				b[j]=(float)Math.random()*500-250;
+				b[j]=(float)(Math.random()*2-1);
 			}
 			biases.add(b);
 		}
 		Matrix m=new Matrix(ou,lb);
 		for(int j=0;j<ou;j++) {
 			for(int k=0;k<lb;k++) {
-				m.mat[j][k]=(float)Math.random()*2000-1000;
-				weights.add(m);
+				m.mat[j][k]=(float)Math.random()*2-1;
+				
 			}
 		}
+		weights.add(m);
 	}
 	public void randomIn(float[] in) {
 		for(int i=0;i<in.length;i++) {
@@ -53,9 +55,10 @@ public class Neuronalnetz {
 	}
 	public void cycle() throws LengthMismatch, BadMatrix {
 		float[] prev=inputn;
+		//System.out.println(weights.size()-1);
 		for(int i=0;i<weights.size()-1;i++) {
-			System.out.println(weights.get(i).c);
-			System.out.println(prev.length);
+			//System.out.println(weights.get(i).c);
+			//System.out.println(prev.length);
 			float[] temphln=Matrix.vertMult(weights.get(i), prev);
 			for(int j=0;j<temphln.length;j++) {
 				
@@ -80,10 +83,22 @@ public class Neuronalnetz {
 				
 				for(int k=0;k<weights.get(i).mat[j].length;k++) {
 					if(j%2!=0) {
+						float zuf=(float)Math.random();
+						if(zuf<=0.05) {
+							mn.mat[j][k]=this.weights.get(i).mat[j][k]*(float)(Math.random()*2-1);
+						}
+						else {
 						mn.mat[j][k]=this.weights.get(i).mat[j][k];
+						}
 					}
 					else {
+						float zuf=(float)Math.random();
+						if(zuf<=0.05) {
+							mn.mat[j][k]=n.weights.get(i).mat[j][k]*(float)(Math.random()*2-1);
+						}
+						else {
 						mn.mat[j][k]=n.weights.get(i).mat[j][k];
+						}
 					}
 				}
 			}
@@ -104,14 +119,27 @@ public class Neuronalnetz {
 		return new Neuronalnetz(new float[this.inputn.length],new ArrayList<float[]>(),weightsneu,biasesneu,new float[this.outputn.length]);
 	}
 	public static void main(String[] args) throws LengthMismatch, BadMatrix {
-		int[] a= {5,4,3};
-		Neuronalnetz n=new Neuronalnetz(10,a,3);
+		int[] a= {10,5,4};
+		Neuronalnetz n=new Neuronalnetz(210,a,4);
+		Neuronalnetz m=new Neuronalnetz(210,a,4);
 		n.randomIn(n.inputn);
+		m.inputn=n.inputn;
 		n.cycle();
+		m.cycle();
 		for(int i=0;i<n.outputn.length;i++) {
 			System.out.printf(" %f;", n.outputn[i]);
 		}
-
+		System.out.println();
+		for(int i=0;i<m.outputn.length;i++) {
+			System.out.printf(" %f;", m.outputn[i]);
+		}
+		System.out.println();
+		Neuronalnetz o=n.paaren(m);
+		o.inputn=m.inputn;
+		o.cycle();
+		for(int i=0;i<o.outputn.length;i++) {
+			System.out.printf(" %f;", o.outputn[i]);
+		}
 	}
 
 }
