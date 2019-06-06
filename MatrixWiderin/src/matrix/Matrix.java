@@ -1,6 +1,8 @@
 package matrix;
 
-public class Matrix implements Ifunction{
+import java.io.Serializable;
+
+public class Matrix implements Ifunction, Serializable{
 	public float[][] mat;
 	public int r;
 	public int c;

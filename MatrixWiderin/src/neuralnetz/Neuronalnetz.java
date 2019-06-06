@@ -1,12 +1,13 @@
 package neuralnetz;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import matrix.BadMatrix;
 import matrix.LengthMismatch;
 import matrix.Matrix;
 
-public class Neuronalnetz {
+public class Neuronalnetz implements Serializable{
 	public float[] inputn;
 	ArrayList<float[]> hln=new ArrayList<float[]>();
 	ArrayList<Matrix> weights=new ArrayList<Matrix>();
@@ -34,10 +35,10 @@ public class Neuronalnetz {
 	 * @param grange Wertebereich der Gewichte
 	 * @param brange Wertebereich der Biases
 	 */
-	public Neuronalnetz(int in, int[] hl, int ou,float grange, float brange) {
-		inputn=new float[in];
+	public Neuronalnetz(float in[], int[] hl, int ou,float grange, float brange) {
+		//inputn=new float[in];
 		outputn=new float[ou];
-		int lb=in;
+		int lb=in.length;
 		for(int i=0;i<hl.length;i++) {
 			Matrix m=new Matrix(hl[i],lb);
 			for(int j=0;j<hl[i];j++) {
@@ -142,7 +143,7 @@ public class Neuronalnetz {
 		return new Neuronalnetz(new float[this.inputn.length],new ArrayList<float[]>(),weightsneu,biasesneu,new float[this.outputn.length]);
 	}
 	public static void main(String[] args) throws LengthMismatch, BadMatrix {
-		int[] a= {10,5,4};
+		/*int[] a= {10,5,4};
 		Neuronalnetz n=new Neuronalnetz(210,a,4,2,2);
 		Neuronalnetz m=new Neuronalnetz(210,a,4,2,2);
 		n.randomIn(n.inputn);
@@ -162,7 +163,7 @@ public class Neuronalnetz {
 		o.cycle();
 		for(int i=0;i<o.outputn.length;i++) {
 			System.out.printf(" %f;", o.outputn[i]);
-		}
+		}*/
 	}
 
 }
