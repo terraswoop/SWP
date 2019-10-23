@@ -29,7 +29,7 @@ public class Heizung {
 		h.register(z);
 		Batuhan b= new Batuhan();
 		h.register(b);
-		h.setValue(31);
+		h.setValue(15);
 
 	}
 
