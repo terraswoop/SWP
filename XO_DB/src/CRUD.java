@@ -81,7 +81,7 @@ public class CRUD {
 
 	public static void deleteKunde(Connection con, int id) {
 		try {
-			String deleteString = "DELETE * FROM kunde WHERE ID=?";
+			String deleteString = "DELETE FROM kunde WHERE ID=?";
 			PreparedStatement delKunde = con.prepareStatement(deleteString);
 			delKunde.setInt(1, id);
 			delKunde.executeUpdate();
@@ -94,7 +94,7 @@ public class CRUD {
 
 	public static void deleteBestellung(Connection con, int id) {
 		try {
-			String deleteString = "DELETE * FROM bestellung_v3 WHERE ID=?";
+			String deleteString = "DELETE FROM bestellung_v3 WHERE ID=?";
 			PreparedStatement delBestellung = con.prepareStatement(deleteString);
 			delBestellung.setInt(1, id);
 			delBestellung.executeUpdate();
@@ -105,7 +105,7 @@ public class CRUD {
 
 	public static void deleteArtikel(Connection con, int id) {
 		try {
-			String deleteString = "DELETE * FROM artikel WHERE ID=?";
+			String deleteString = "DELETE FROM artikel WHERE ID=?";
 			PreparedStatement delArtikel = con.prepareStatement(deleteString);
 			delArtikel.setInt(1, id);
 			delArtikel.executeUpdate();
@@ -116,19 +116,20 @@ public class CRUD {
 
 	public static void deleteBestArt(Connection con, int bestid, int artid) {
 		try {
-			String deleteString = "DELETE * FROM bestellung_artikel WHERE Bestell_ID=? AND Artikel_ID=?";
+			String deleteString = "DELETE FROM bestellung_artikel WHERE Bestell_ID=? AND Artikel_ID=?";
 			PreparedStatement delArtikel = con.prepareStatement(deleteString);
 			delArtikel.setInt(1, bestid);
 			delArtikel.setInt(2, artid);
 			delArtikel.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("Attributes aren't right");
+			e.printStackTrace();
 		}
 	}
 
 	public static void deleteAdresse(Connection con, int id) {
 		try {
-			String deleteString = "DELETE * FROM adresse WHERE ID=?";
+			String deleteString = "DELETE FROM adresse WHERE ID=?";
 			PreparedStatement delAdresse = con.prepareStatement(deleteString);
 			delAdresse.setInt(1, id);
 			delAdresse.executeUpdate();
@@ -155,7 +156,7 @@ public class CRUD {
 
 	public static void updateBestellung(Connection con, int id, int kid, int arid, int alid) {
 		try {
-			String updateString = "UPDATE bestellung_v3 SET Kunde_ID=?, Adrresse_Rechnung_ID=?, Adresse_Liefer_ID=?, WHERE ID=?";
+			String updateString = "UPDATE bestellung_v3 SET Kunde_ID=?, Adresse_Rechnung_ID=?, Adresse_Liefer_ID=? WHERE ID=?";
 			PreparedStatement updateBestellung = con.prepareStatement(updateString);
 			updateBestellung.setInt(1, kid);
 			updateBestellung.setInt(2, arid);
@@ -164,12 +165,13 @@ public class CRUD {
 			updateBestellung.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("Attributes aren't right");
+			e.printStackTrace();
 		}
 	}
 
 	public static void updateAdresse(Connection con, int id, String stadt, String strasse, int plz, String hnr) {
 		try {
-			String updateString = "UPDATE adresse SET Stadt=?, Strasse=?, PLZ=?, Hnr=?, WHERE ID=?";
+			String updateString = "UPDATE adresse SET Stadt=?, Strasse=?, PLZ=?, Hnr=? WHERE ID=?";
 			PreparedStatement updateAdresse = con.prepareStatement(updateString);
 			updateAdresse.setString(1, stadt);
 			updateAdresse.setString(2, strasse);
@@ -179,12 +181,13 @@ public class CRUD {
 			updateAdresse.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("Attributes aren't right");
+			e.printStackTrace();
 		}
 	}
 
 	public static void updateArtikel(Connection con, int id, String name, double preis) {
 		try {
-			String updateString = "UPDATE artikel SET Stadt=?, Name=?, WHERE ID=?";
+			String updateString = "UPDATE artikel SET name=?, preis=? WHERE ID=?";
 			PreparedStatement updateArtikel = con.prepareStatement(updateString);
 			updateArtikel.setString(1, name);
 			updateArtikel.setDouble(2, preis);
@@ -192,6 +195,7 @@ public class CRUD {
 			updateArtikel.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("Attributes aren't right");
+			e.printStackTrace();
 		}
 	}
 
@@ -302,7 +306,7 @@ public class CRUD {
 
 	public static void selectArtikel(Connection con, int id) {
 		try {
-			String selectString = "SELECT * FROM kunde WHERE id=?";
+			String selectString = "SELECT * FROM artikel WHERE id=?";
 			PreparedStatement selectArtikel = con.prepareStatement(selectString);
 			selectArtikel.setInt(1, id);
 			ResultSet rs = selectArtikel.executeQuery();
@@ -318,7 +322,7 @@ public class CRUD {
 
 	public static ResultSet selectArtikelRs(Connection con, int id) {
 		try {
-			String selectString = "SELECT * FROM kunde WHERE id=?";
+			String selectString = "SELECT * FROM artikel WHERE id=?";
 			PreparedStatement selectArtikel = con.prepareStatement(selectString);
 			selectArtikel.setInt(1, id);
 			ResultSet rs = selectArtikel.executeQuery();
@@ -436,35 +440,50 @@ public class CRUD {
 				if (in[0].equals("Kunde")) {
 					for(int i=2;i<in.length;i++) {
 						if(in[i].equals(":")) {
-							in[i]=selectKundeRs(c,Integer.parseInt(in[1])).getString(i-1);
+							ResultSet kr=selectKundeRs(c,Integer.parseInt(in[1]));
+							if(kr.next()) {
+							in[i]=kr.getString(i);
+							}
 						}
 					}
 					updateKunde(c,Integer.parseInt(in[1]),in[2],in[3],in[4],in[5]);
 				} else if (in[0].equals("Bestellung")) {
 					for(int i=2;i<in.length;i++) {
 						if(in[i].equals(":")) {
-							in[i]=selectBestellungRs(c,Integer.parseInt(in[1])).getString(i-1);
+							ResultSet br=selectBestellungRs(c,Integer.parseInt(in[1]));
+							if(br.next()) {
+								in[i]=br.getString(i);
+							}
 						}
 					}
 					updateBestellung(c,Integer.parseInt(in[1]),Integer.parseInt(in[2]),Integer.parseInt(in[3]),Integer.parseInt(in[4]));
 				} else if (in[0].equals("Adresse")) {
 					for(int i=2;i<in.length;i++) {
 						if(in[i].equals(":")) {
-							in[i]=selectAdresseRs(c,Integer.parseInt(in[1])).getString(i-1);
+							ResultSet ar=selectAdresseRs(c,Integer.parseInt(in[1]));
+							if(ar.next()) {
+								in[i]=ar.getString(i);
+							}
 						}
 					}
 					updateAdresse(c,Integer.parseInt(in[1]),in[2],in[3],Integer.parseInt(in[4]),in[5]);
 				} else if (in[0].equals("BestellungArtikel")) {
 					for(int i=3;i<in.length;i++) {
 						if(in[i].equals(":")) {
-							in[i]=selectBestArtRs(c,Integer.parseInt(in[1]), Integer.parseInt(in[2])).getString(i-1);
+							ResultSet bar=selectBestArtRs(c,Integer.parseInt(in[1]), Integer.parseInt(in[2]));
+							if(bar.next()) {
+								in[i]=bar.getString(i);
+							}
 						}
 					}
 					updateBestArt(c,Integer.parseInt(in[1]),Integer.parseInt(in[2]),Integer.parseInt(in[3]));
 				} else if (in[0].equals("Artikel")) {
 					for(int i=2;i<in.length;i++) {
 						if(in[i].equals(":")) {
-							in[i]=selectArtikelRs(c,Integer.parseInt(in[1])).getString(i-1);
+							ResultSet ar=selectArtikelRs(c,Integer.parseInt(in[1]));
+							if(ar.next()) {
+								in[i]=ar.getString(i);
+							}
 						}
 					}
 					updateArtikel(c,Integer.parseInt(in[1]),in[2],Double.parseDouble(in[3]));
