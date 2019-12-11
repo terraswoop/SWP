@@ -1,3 +1,4 @@
+package Weedhart.jpa_example;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -282,7 +283,7 @@ public class CRUD {
 			rs.next();
 			System.out.println("------------------------------");
 			System.out.println("Stadt: " + rs.getString("stadt"));
-			System.out.println("Straße: " + rs.getString("strasse"));
+			System.out.println("Straï¿½e: " + rs.getString("strasse"));
 			System.out.println("PLZ: " + rs.getInt("plz"));
 			System.out.println("Hausnummer: " + rs.getString("hnr"));
 			System.out.println("------------------------------");

@@ -12,5 +12,4 @@ public class Batuhan implements Observer{
 		return interest;
 	}
 	
-
 }
