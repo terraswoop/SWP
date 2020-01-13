@@ -32,7 +32,8 @@ import org.json.JSONObject;
 
 public class ScrollingActivity extends AppCompatActivity {
     String data;
-
+    ListView listView;
+    TextView textView;
     private static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
         int cp;
@@ -46,6 +47,8 @@ public class ScrollingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
+        listView = (ListView)findViewById(R.id.listView);
+        textView = (TextView)findViewById(R.id.textView);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -88,7 +91,9 @@ public class ScrollingActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        final ArrayAdapter<DriverStandings> adapter = new ArrayAdapter<DriverStandings>(this,
+                R.layout.list_item, R.id.textView, ds);
+        listView.setAdapter(adapter);
         TextView tv= (TextView) findViewById(R.id.textfeld);
         tv.setText(textString);
         fab.setOnClickListener(new View.OnClickListener() {
