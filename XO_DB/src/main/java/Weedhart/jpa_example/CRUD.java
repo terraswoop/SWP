@@ -442,6 +442,7 @@ public class CRUD {
 					for(int i=2;i<in.length;i++) {
 						if(in[i].equals(":")) {
 							ResultSet kr=selectKundeRs(c,Integer.parseInt(in[1]));
+							System.out.println(kr);
 							if(kr.next()) {
 							in[i]=kr.getString(i);
 							}

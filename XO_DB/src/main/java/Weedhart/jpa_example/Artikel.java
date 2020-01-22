@@ -18,6 +18,13 @@ public class Artikel {
 		this.name = name;
 		this.preis = preis;
 	}
+	public String getString(int i) {
+		if(i==0) {return "Artikel";}
+		if(i==1) {return ""+id;}
+		if(i==2) {return name;}
+		if(i==3) {return ""+preis;}
+		else return null;
+	}
 	@Override
 	public String toString() {
 		return "Artikel [id=" + id + ", name=" + name + ", preis=" + preis + "]";

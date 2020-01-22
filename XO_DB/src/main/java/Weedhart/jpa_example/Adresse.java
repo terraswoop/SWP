@@ -12,7 +12,7 @@ public class Adresse {
 	private String strasse;
 	private int plz;
 	private String hnr;
-	
+	public Adresse() {}
 	public Adresse( String stadt, String strasse, int plz, String hnr) {
 		super();
 		this.stadt = stadt;
@@ -20,7 +20,15 @@ public class Adresse {
 		this.plz = plz;
 		this.hnr = hnr;
 	}
-	
+	public String getString(int i) {
+		if(i==0) {return "Adresse";}
+		if(i==1) {return ""+id;}
+		if(i==2) {return stadt;}
+		if(i==3) {return strasse;}
+		if(i==4) {return ""+plz;}
+		if(i==5) {return hnr;}
+		else return null;
+	}
 	@Override
 	public String toString() {
 		return "Adresse [id=" + id + ", stadt=" + stadt + ", strasse=" + strasse + ", plz=" + plz + ", hnr=" + hnr

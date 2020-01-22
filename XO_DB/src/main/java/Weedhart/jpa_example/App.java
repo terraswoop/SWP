@@ -1,6 +1,9 @@
 package Weedhart.jpa_example;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -51,6 +54,12 @@ public class App
 		manager.remove(k);
 		manager.getTransaction().commit();
 	}
+	public static void deleteAdresse(EntityManager manager, int id) {
+		Adresse a=manager.find(Adresse.class, (long)id);
+		manager.getTransaction().begin();
+		manager.remove(a);
+		manager.getTransaction().commit();
+	}
 	public static void deleteBestellung(EntityManager manager, int id) {
 		Bestellung b=manager.find(Bestellung.class, (long)id);
 		manager.getTransaction().begin();
@@ -65,9 +74,6 @@ public class App
 	}
 	@SuppressWarnings("unchecked")
 	public static void deleteBestArt(EntityManager manager, int bestid, int artid) {
-		Bestellung b= manager.find(Bestellung.class,(long)bestid);
-		Artikel a=manager.find(Artikel.class, (long)artid);
-		boolean found=false;
 		Query query = manager.createQuery("Select * FROM Bestellung_Artikel");
 		List<Bestellung_Artikel> result=query.getResultList();
 		for(int i=0;i<result.size();i++) {
@@ -77,6 +83,93 @@ public class App
 				manager.getTransaction().commit();
 			}
 		}
+	}
+	public static void selectKunde(EntityManager manager, int id) {
+		Kunde k=manager.find(Kunde.class, id);
+		System.out.println(k.toString());
+	}
+	public static void selectAdresse(EntityManager manager, int id) {
+		Adresse a=manager.find(Adresse.class, id);
+		System.out.println(a.toString());
+	}
+	public static void selectBestellung(EntityManager manager, int id) {
+		Bestellung b=manager.find(Bestellung.class, id);
+		System.out.println(b.toString());
+	}
+	public static void selectArtikel(EntityManager manager, int id) {
+		Artikel a=manager.find(Artikel.class, id);
+		System.out.println(a.toString());
+	}
+	public static void selectBestArt(EntityManager manager, int bestid, int artid) {
+		Query query = manager.createQuery("Select * FROM Bestellung_Artikel");
+		@SuppressWarnings("unchecked")
+		List<Bestellung_Artikel> result=query.getResultList();
+		for(int i=0;i<result.size();i++) {
+			if(result.get(i).getBestellung().getId()==bestid && result.get(i).getArtikel().getId()==artid) {
+				System.out.println(result.get(i).toString());
+			}
+		}
+	}
+	public static Kunde selectKundeK(EntityManager manager, int id) {
+		return manager.find(Kunde.class, id);
+	}
+	public static void updateKunde(EntityManager manager, int id, String titelv, String vorname, String nachname, String titeln) {
+		Kunde k=manager.find(Kunde.class, id);
+		manager.getTransaction().begin();
+		k.setTitelv(titelv);
+		k.setVorname(vorname);
+		k.setNachname(nachname);
+		k.setTiteln(titeln);
+		manager.getTransaction().commit();
+	}
+	public static Bestellung selectBestellungB(EntityManager manager, int id) {
+		return manager.find(Bestellung.class, id);
+	}
+	public static void updateBestellung(EntityManager manager,int id, int kid, int arid, int alid) {
+		Bestellung b=manager.find(Bestellung.class, id);
+		manager.getTransaction().begin();
+		b.setKunde(manager.find(Kunde.class, kid));
+		b.setAddressrech(manager.find(Adresse.class, arid));
+		b.setAddresslief(manager.find(Adresse.class, alid));
+	}
+	public static Adresse selectAdresseA(EntityManager manager, int id) {
+		return manager.find(Adresse.class, id);
+	}
+	public static void updateAdresse(EntityManager manager, int id, String stadt, String strasse, int plz, String hnr) {
+		Adresse a=manager.find(Adresse.class, id);
+		manager.getTransaction().begin();
+		a.setStadt(stadt);
+		a.setStrasse(strasse);
+		a.setPlz(plz);
+		a.setHnr(hnr);
+		manager.getTransaction().commit();
+	}
+	public static Bestellung_Artikel selectBestArtBA(EntityManager manager, int bestid, int artid) {
+		Query query = manager.createQuery("Select * FROM Bestellung_Artikel");
+		@SuppressWarnings("unchecked")
+		List<Bestellung_Artikel> result=query.getResultList();
+		for(int i=0;i<result.size();i++) {
+			if(result.get(i).getBestellung().getId()==bestid && result.get(i).getArtikel().getId()==artid) {
+				return result.get(i);
+			}
+		}
+		return null;
+	}
+	public static void updateBestArt(EntityManager manager, int bestid, int artid, int menge) {
+		Bestellung_Artikel ba=selectBestArtBA(manager,bestid,artid);
+		manager.getTransaction().begin();
+		ba.setMenge(menge);
+		manager.getTransaction().commit();
+	}
+	public static Artikel selectArtikelA(EntityManager manager, int id) {
+		return manager.find(Artikel.class, id);
+	}
+	public static void updateArtikel(EntityManager manager,  int id, String name, double preis) {
+		Artikel a=manager.find(Artikel.class, id);
+		manager.getTransaction().begin();
+		a.setName(name);
+		a.setPreis(preis);
+		manager.getTransaction().commit();
 	}
     public static void main( String[] args )
     {
@@ -101,7 +194,7 @@ public class App
         manager.remove(p);
         manager.getTransaction().commit();
         */
-         Person p=manager.find(Person.class, 1L);
+         Kunde p=manager.find(Kunde.class, 1L);
          System.out.println(p);
          /*
          Hobby h=new Hobby("Fußball",4,12.40);
@@ -186,50 +279,40 @@ public class App
  				if (in[0].equals("Kunde")) {
  					for(int i=2;i<in.length;i++) {
  						if(in[i].equals(":")) {
- 							ResultSet kr=selectKundeRs(manager,Integer.parseInt(in[1]));
- 							if(kr.next()) {
- 							in[i]=kr.getString(i);
- 							}
+ 							Kunde k=selectKundeK(manager,Integer.parseInt(in[1]));
+ 							in[i]=k.getString(i);
  						}
  					}
  					updateKunde(manager,Integer.parseInt(in[1]),in[2],in[3],in[4],in[5]);
  				} else if (in[0].equals("Bestellung")) {
  					for(int i=2;i<in.length;i++) {
  						if(in[i].equals(":")) {
- 							ResultSet br=selectBestellungRs(manager,Integer.parseInt(in[1]));
- 							if(br.next()) {
- 								in[i]=br.getString(i);
- 							}
+ 							Bestellung b=selectBestellungB(manager,Integer.parseInt(in[1]));
+ 							in[i]=b.getString(i);
  						}
  					}
  					updateBestellung(manager,Integer.parseInt(in[1]),Integer.parseInt(in[2]),Integer.parseInt(in[3]),Integer.parseInt(in[4]));
  				} else if (in[0].equals("Adresse")) {
  					for(int i=2;i<in.length;i++) {
  						if(in[i].equals(":")) {
- 							ResultSet ar=selectAdresseRs(manager,Integer.parseInt(in[1]));
- 							if(ar.next()) {
- 								in[i]=ar.getString(i);
- 							}
+ 							Adresse a=selectAdresseA(manager,Integer.parseInt(in[1]));
+ 							in[i]=a.getString(i);
  						}
  					}
  					updateAdresse(manager,Integer.parseInt(in[1]),in[2],in[3],Integer.parseInt(in[4]),in[5]);
  				} else if (in[0].equals("BestellungArtikel")) {
  					for(int i=3;i<in.length;i++) {
  						if(in[i].equals(":")) {
- 							ResultSet bar=selectBestArtRs(manager,Integer.parseInt(in[1]), Integer.parseInt(in[2]));
- 							if(bar.next()) {
- 								in[i]=bar.getString(i);
- 							}
+ 							Bestellung_Artikel bar=selectBestArtBA(manager,Integer.parseInt(in[1]), Integer.parseInt(in[2]));
+ 							in[i]=bar.getString(i);
  						}
  					}
  					updateBestArt(manager,Integer.parseInt(in[1]),Integer.parseInt(in[2]),Integer.parseInt(in[3]));
  				} else if (in[0].equals("Artikel")) {
  					for(int i=2;i<in.length;i++) {
  						if(in[i].equals(":")) {
- 							ResultSet ar=selectArtikelRs(manager,Integer.parseInt(in[1]));
- 							if(ar.next()) {
- 								in[i]=ar.getString(i);
- 							}
+ 							Artikel ar=selectArtikelA(manager,Integer.parseInt(in[1]));
+ 							in[i]=ar.getString(i);
  						}
  					}
  					updateArtikel(manager,Integer.parseInt(in[1]),in[2],Double.parseDouble(in[3]));
@@ -266,7 +349,6 @@ public class App
  		}
  		System.out.println("See ya!");
  		s.close();
- 		c.close();
  	}
-    }
 }
+

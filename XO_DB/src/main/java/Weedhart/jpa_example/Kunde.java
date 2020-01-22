@@ -12,7 +12,7 @@ public class Kunde {
 	private String vorname;
 	private String nachname;
 	private String titeln;
-	
+	public Kunde() {}
 	public Kunde(String titelv, String vorname, String nachname, String titeln) {
 		super();
 		this.titelv = titelv;
@@ -23,6 +23,15 @@ public class Kunde {
 	@Override
 	public String toString() {
 		return "Person [id=" + id + ", TitelV=" + titelv + ", Firstname=" + vorname + ", Lastname=" + nachname +", TitelN= "+titeln+ "]";
+	}
+	public String getString(int i) {
+		if(i==0) {return "Kunde";}
+		if(i==1) {return ""+id;}
+		if(i==2) {return titelv;}
+		if(i==3) {return vorname;}
+		if(i==4) {return nachname;}
+		if(i==5) {return titeln;}
+		else return null;
 	}
 	public long getId() {
 		return id;

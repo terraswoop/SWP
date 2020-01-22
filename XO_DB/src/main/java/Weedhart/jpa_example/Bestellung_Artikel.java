@@ -12,13 +12,20 @@ public class Bestellung_Artikel {
 	private Bestellung bestellung;
 	private Artikel artikel;
 	private int menge;
+	public Bestellung_Artikel() {}
 	public Bestellung_Artikel(Bestellung bestellung, Artikel artikel, int menge) {
 		super();
 		this.bestellung = bestellung;
 		this.artikel = artikel;
 		this.menge=menge;
 	}
-	
+	public String getString(int i) {
+		if(i==0) {return "BestArt";}
+		if(i==1) {return ""+bestellung.getId();}
+		if(i==2) {return ""+artikel.getId();}
+		if(i==3) {return ""+menge;}
+		else return null;
+	}
 	@Override
 	public String toString() {
 		return "Bestellung_Artikel [id=" + id + ", bestellung=" + bestellung + ", artikel=" + artikel + ", menge="

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="Blog">
-		<class>Weedhart.jpa_example.Person</class>
-		<class>Weedhart.jpa_example.Hobby</class>
+		<class>Weedhart.jpa_example.Kunde</class>
+		<class>Weedhart.jpa_example.Adresse</class>
+		<class>Weedhart.jpa_example.Artikel</class>
+		<class>Weedhart.jpa_example.Bestellung_Artikel</class>
+		<class>Weedhart.jpa_example.Bestellung</class>
 		<properties>
 			<property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
 			<property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
