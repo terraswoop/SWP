@@ -44,13 +44,52 @@ public class App
 		manager.persist(ba);
 		manager.getTransaction().commit();
 	}
+	@SuppressWarnings("unchecked")
 	public static void deleteKunde(EntityManager manager, int id) {
+		Query query = manager.createNativeQuery("Select * FROM Bestellung;",Bestellung.class);
+		List<Bestellung> result=query.getResultList();
+		for(int i=0;i<result.size();i++) {
+			if(result.get(i).getKunde().getId()==(long)id) {
+				query = manager.createNativeQuery("Select * FROM Bestellung_Artikel;",Bestellung_Artikel.class);
+				List<Bestellung_Artikel> resultba=query.getResultList();
+				for(int j=0;j<resultba.size();j++) {
+					if(resultba.get(j).getBestellung().getId()==result.get(i).getId()) {
+						manager.getTransaction().begin();
+						manager.remove(resultba.get(j));
+						manager.getTransaction().commit();
+					}
+				}
+				manager.getTransaction().begin();
+				manager.remove(result.get(i));
+				manager.getTransaction().commit();
+			}
+		}
 		Kunde k=manager.find(Kunde.class, (long)id);
 		manager.getTransaction().begin();
 		manager.remove(k);
 		manager.getTransaction().commit();
 	}
+	@SuppressWarnings("unchecked")
 	public static void deleteAdresse(EntityManager manager, int id) {
+		Query query = manager.createNativeQuery("Select * FROM Bestellung;",Bestellung.class);
+		List<Bestellung> result=query.getResultList();
+		for(int i=0;i<result.size();i++) {
+			if(result.get(i).getAddresslief().getId()==(long)id || result.get(i).getAddressrech().getId()==(long)id) {
+				query = manager.createNativeQuery("Select * FROM Bestellung_Artikel;",Bestellung_Artikel.class);
+				List<Bestellung_Artikel> resultba=query.getResultList();
+				for(int j=0;j<resultba.size();j++) {
+					if(resultba.get(j).getBestellung().getId()==result.get(i).getId()) {
+						manager.getTransaction().begin();
+						manager.remove(resultba.get(j));
+						manager.getTransaction().commit();
+					}
+				}
+				manager.getTransaction().begin();
+				manager.remove(result.get(i));
+				manager.getTransaction().commit();
+			}
+			
+		}
 		Adresse a=manager.find(Adresse.class, (long)id);
 		manager.getTransaction().begin();
 		manager.remove(a);
@@ -62,7 +101,17 @@ public class App
 		manager.remove(b);
 		manager.getTransaction().commit();
 	}
+	@SuppressWarnings("unchecked")
 	public static void deleteArtikel(EntityManager manager, int id) {
+		Query query = manager.createNativeQuery("Select * FROM Bestellung_Artikel;",Bestellung_Artikel.class);
+		List<Bestellung_Artikel> result=query.getResultList();
+		for(int i=0;i<result.size();i++) {
+			if(result.get(i).getArtikel().getId()==(long)id) {
+				manager.getTransaction().begin();
+				manager.remove(result.get(i));
+				manager.getTransaction().commit();
+			}
+		}
 		Artikel a=manager.find(Artikel.class, (long)id);
 		manager.getTransaction().begin();
 		manager.remove(a);
