@@ -48,19 +48,19 @@ public class App
 	public static void deleteKunde(EntityManager manager, int id) {
 		Query query = manager.createNativeQuery("Select * FROM Bestellung;",Bestellung.class);
 		List<Bestellung> result=query.getResultList();
-		for(int i=0;i<result.size();i++) {
-			if(result.get(i).getKunde().getId()==(long)id) {
+		for(Bestellung b : result) {
+			if(b.getKunde().getId()==(long)id) {
 				query = manager.createNativeQuery("Select * FROM Bestellung_Artikel;",Bestellung_Artikel.class);
 				List<Bestellung_Artikel> resultba=query.getResultList();
-				for(int j=0;j<resultba.size();j++) {
-					if(resultba.get(j).getBestellung().getId()==result.get(i).getId()) {
+				for(Bestellung_Artikel ba : resultba) {
+					if(ba.getBestellung().getId()==b.getId()) {
 						manager.getTransaction().begin();
-						manager.remove(resultba.get(j));
+						manager.remove(ba);
 						manager.getTransaction().commit();
 					}
 				}
 				manager.getTransaction().begin();
-				manager.remove(result.get(i));
+				manager.remove(b);
 				manager.getTransaction().commit();
 			}
 		}
@@ -73,19 +73,19 @@ public class App
 	public static void deleteAdresse(EntityManager manager, int id) {
 		Query query = manager.createNativeQuery("Select * FROM Bestellung;",Bestellung.class);
 		List<Bestellung> result=query.getResultList();
-		for(int i=0;i<result.size();i++) {
-			if(result.get(i).getAddresslief().getId()==(long)id || result.get(i).getAddressrech().getId()==(long)id) {
+		for(Bestellung b : result) {
+			if(b.getAddresslief().getId()==(long)id || b.getAddressrech().getId()==(long)id) {
 				query = manager.createNativeQuery("Select * FROM Bestellung_Artikel;",Bestellung_Artikel.class);
 				List<Bestellung_Artikel> resultba=query.getResultList();
-				for(int j=0;j<resultba.size();j++) {
-					if(resultba.get(j).getBestellung().getId()==result.get(i).getId()) {
+				for(Bestellung_Artikel ba : resultba) {
+					if(ba.getBestellung().getId()==b.getId()) {
 						manager.getTransaction().begin();
-						manager.remove(resultba.get(j));
+						manager.remove(ba);
 						manager.getTransaction().commit();
 					}
 				}
 				manager.getTransaction().begin();
-				manager.remove(result.get(i));
+				manager.remove(b);
 				manager.getTransaction().commit();
 			}
 			
@@ -95,7 +95,17 @@ public class App
 		manager.remove(a);
 		manager.getTransaction().commit();
 	}
+	@SuppressWarnings("unchecked")
 	public static void deleteBestellung(EntityManager manager, int id) {
+		Query query = manager.createNativeQuery("Select * FROM Bestellung_Artikel;",Bestellung_Artikel.class);
+		List<Bestellung_Artikel> result=query.getResultList();
+		for(Bestellung_Artikel ba : result) {
+			if(ba.getBestellung().getId()==(long)id) {
+				manager.getTransaction().begin();
+				manager.remove(ba);
+				manager.getTransaction().commit();
+			}
+		}
 		Bestellung b=manager.find(Bestellung.class, (long)id);
 		manager.getTransaction().begin();
 		manager.remove(b);
@@ -105,10 +115,10 @@ public class App
 	public static void deleteArtikel(EntityManager manager, int id) {
 		Query query = manager.createNativeQuery("Select * FROM Bestellung_Artikel;",Bestellung_Artikel.class);
 		List<Bestellung_Artikel> result=query.getResultList();
-		for(int i=0;i<result.size();i++) {
-			if(result.get(i).getArtikel().getId()==(long)id) {
+		for(Bestellung_Artikel ba : result) {
+			if(ba.getArtikel().getId()==(long)id) {
 				manager.getTransaction().begin();
-				manager.remove(result.get(i));
+				manager.remove(ba);
 				manager.getTransaction().commit();
 			}
 		}
@@ -121,10 +131,10 @@ public class App
 	public static void deleteBestArt(EntityManager manager, int bestid, int artid) {
 		Query query = manager.createNativeQuery("Select * FROM Bestellung_Artikel;",Bestellung_Artikel.class);
 		List<Bestellung_Artikel> result=query.getResultList();
-		for(int i=0;i<result.size();i++) {
-			if(result.get(i).getBestellung().getId()==(long)bestid && result.get(i).getArtikel().getId()==(long)artid) {
+		for(Bestellung_Artikel ba : result) {
+			if(ba.getBestellung().getId()==(long)bestid && ba.getArtikel().getId()==(long)artid) {
 				manager.getTransaction().begin();
-				manager.remove(result.get(i));
+				manager.remove(ba);
 				manager.getTransaction().commit();
 			}
 		}
@@ -149,9 +159,9 @@ public class App
 		Query query = manager.createNativeQuery("Select * FROM Bestellung_Artikel;",Bestellung_Artikel.class);
 		@SuppressWarnings("unchecked")
 		List<Bestellung_Artikel> result=query.getResultList();
-		for(int i=0;i<result.size();i++) {
-			if(result.get(i).getBestellung().getId()==(long)bestid && result.get(i).getArtikel().getId()==(long)artid) {
-				System.out.println(result.get(i).toString());
+		for(Bestellung_Artikel ba : result) {
+			if(ba.getBestellung().getId()==(long)bestid && ba.getArtikel().getId()==(long)artid) {
+				System.out.println(ba.toString());
 			}
 		}
 	}
@@ -193,9 +203,9 @@ public class App
 		Query query = manager.createNativeQuery("Select * FROM Bestellung_Artikel;",Bestellung_Artikel.class);
 		@SuppressWarnings("unchecked")
 		List<Bestellung_Artikel> result=query.getResultList();
-		for(int i=0;i<result.size();i++) {
-			if(result.get(i).getBestellung().getId()==(long)bestid && result.get(i).getArtikel().getId()==(long)artid) {
-				return result.get(i);
+		for(Bestellung_Artikel ba : result) {
+			if(ba.getBestellung().getId()==(long)bestid && ba.getArtikel().getId()==(long)artid) {
+				return ba;
 			}
 		}
 		return null;
@@ -374,9 +384,8 @@ public class App
  			}
 
  			else if (input.equals("D")) {
- 				System.out.println("PLEASE NOTE: Before you delete an Artikel, you have to delete every Bestellung that is assigned to it first,");
- 				System.out.println("and then you have to delete the corresponding BestellungArtikel tables.");
- 				System.out.println("Before deleting a Kunde or Adresse, you have to delete every Bestellung which contains their IDs");
+ 				System.out.println("PLEASE NOTE: Before you delete an Artikel, every corresponding BestellungArtikel table will be deleted.");
+ 				System.out.println("By deleting a Kunde or Adresse, every Bestellung which contains their IDs will be gone and with that every dependend BestellungArtikel");
  				System.out.println("Type in the table-name and ID (2IDs for BestArt) you want to delete:");
  				input = s.nextLine();
  				String in[] = input.split(" ");
