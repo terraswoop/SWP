@@ -143,17 +143,49 @@ public class App
 		Kunde k=manager.find(Kunde.class, (long)id);
 		System.out.println(k.toString());
 	}
+	@SuppressWarnings("unchecked")
+	public static void selectKundeAll(EntityManager manager) {
+		Query query = manager.createNativeQuery("Select * FROM Kunde;",Kunde.class);
+		List<Kunde> result=query.getResultList();
+		for(Kunde k : result) {
+			System.out.println(k.toString());
+		}
+	}
 	public static void selectAdresse(EntityManager manager, int id) {
 		Adresse a=manager.find(Adresse.class, (long)id);
 		System.out.println(a.toString());
+	}
+	@SuppressWarnings("unchecked")
+	public static void selectAdresseAll(EntityManager manager) {
+		Query query = manager.createNativeQuery("Select * FROM Adresse;",Adresse.class);
+		List<Adresse> result=query.getResultList();
+		for(Adresse a : result) {
+			System.out.println(a.toString());
+		}
 	}
 	public static void selectBestellung(EntityManager manager, int id) {
 		Bestellung b=manager.find(Bestellung.class, (long)id);
 		System.out.println(b.toString());
 	}
+	@SuppressWarnings("unchecked")
+	public static void selectBestellungAll(EntityManager manager) {
+		Query query = manager.createNativeQuery("Select * FROM Bestellung;",Bestellung.class);
+		List<Bestellung> result=query.getResultList();
+		for(Bestellung b : result) {
+			System.out.println(b.toString());
+		}
+	}
 	public static void selectArtikel(EntityManager manager, int id) {
 		Artikel a=manager.find(Artikel.class, (long)id);
 		System.out.println(a.toString());
+	}
+	@SuppressWarnings("unchecked")
+	public static void selectArtikelAll(EntityManager manager) {
+		Query query = manager.createNativeQuery("Select * FROM Artikel;",Artikel.class);
+		List<Artikel> result=query.getResultList();
+		for(Artikel a : result) {
+			System.out.println(a.toString());
+		}
 	}
 	public static void selectBestArt(EntityManager manager, int bestid, int artid) {
 		Query query = manager.createNativeQuery("Select * FROM Bestellung_Artikel;",Bestellung_Artikel.class);
@@ -163,6 +195,14 @@ public class App
 			if(ba.getBestellung().getId()==(long)bestid && ba.getArtikel().getId()==(long)artid) {
 				System.out.println(ba.toString());
 			}
+		}
+	}
+	@SuppressWarnings("unchecked")
+	public static void selectBestellungArtikelAll(EntityManager manager) {
+		Query query = manager.createNativeQuery("Select * FROM Bestellung_Artikel;",Bestellung_Artikel.class);
+		List<Bestellung_Artikel> result=query.getResultList();
+		for(Bestellung_Artikel ba : result) {
+			System.out.println(ba.toString());
 		}
 	}
 	public static Kunde selectKundeK(EntityManager manager, int id) {
@@ -275,7 +315,7 @@ public class App
  				"May i remind you to keep the database scheme by your side, in order to insert the correct attributes for each table.");
  		boolean finished = false;
  		while (!finished) {
- 			System.out.println("Type R for read, C for create, U for update or D for delete:");
+ 			System.out.println("Type L for Table-List, R for read, C for create, U for update or D for delete:");
  			String input = s.nextLine();
  			if (input.equals("R")) {
  				System.out.println("Type in the table-name and ID (2IDs for BestArt) of the entry seperated by one space:");
@@ -402,7 +442,25 @@ public class App
  				} else {
  					System.out.println("Looks like you failed, try again!");
  				}
- 			} else {
+ 			} 
+ 			else if (input.equals("L")) {
+ 				System.out.println("Enter the Table name:");
+ 				input = s.nextLine();
+ 				if (input.equals("Kunde")) {
+ 					selectKundeAll(manager);
+ 				} else if (input.equals("Bestellung")) {
+ 					selectBestellungAll(manager);
+ 				} else if (input.equals("Adresse")) {
+ 					selectAdresseAll(manager);
+ 				} else if (input.equals("BestellungArtikel")) {
+ 					selectBestellungArtikelAll(manager);
+ 				} else if (input.equals("Artikel")) {
+ 					selectArtikelAll(manager);
+ 				} else {
+ 					System.out.println("Looks like you failed, try again!");
+ 				}
+ 			}
+ 			else {
  				System.out.println("Wow, failed already? Please try again or leave!");
  			}
  			System.out.println("Have you finished? y/n:");

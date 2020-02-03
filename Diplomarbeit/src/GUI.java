@@ -20,8 +20,9 @@ import javax.swing.WindowConstants;
 public class GUI implements ActionListener{
 	JFrame jf;
 	JFormattedTextField tf;
-	JComboBox<String[]> jc;
+	JComboBox<String[]> jc,jcom;
 	String[] options ={"Reines Drehteil","Teilweises Drehteil","Kein Drehteil"};
+	String[] coms= {"COM1","COM2","COM3","COM4","COM5","COM6","COM7"};
 	JLabel o,m,d;
 	JButton b,s,r;
 	int objectheight;
@@ -46,7 +47,9 @@ public class GUI implements ActionListener{
 		tf = new JFormattedTextField();;
 		tf.setBounds(100, 100, 150, 20);
 		jc = new JComboBox(options);
+		jcom=new JComboBox(coms);
 		jc.setBounds(100, 160, 150, 20);
+		jcom.setBounds(100, 30, 150, 20);
 		b = new JButton("Set");
 		b.setBounds(120, 200, 95, 30);
 		s=new JButton("Send to Arduino");
@@ -92,6 +95,7 @@ public class GUI implements ActionListener{
 		jf.add(m);
 		jf.add(d);
 		jf.add(jc);
+		jf.add(jcom);
 		jf.setLayout(null);
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
