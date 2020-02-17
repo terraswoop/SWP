@@ -18,16 +18,16 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 public class GUI implements ActionListener{
-	JFrame jf;
-	JFormattedTextField tf;
-	JComboBox<String[]> jc,jcom;
-	String[] options ={"Reines Drehteil","Teilweises Drehteil","Kein Drehteil"};
-	String[] coms= {"COM1","COM2","COM3","COM4","COM5","COM6","COM7"};
-	JLabel o,m,d;
-	JButton b,s,r;
-	int objectheight;
-	int mode;
-	int center;
+	static JFrame jf;
+	static JFormattedTextField tf;
+	static JComboBox<String[]> jc,jcom;
+	static String[] options ={"Reines Drehteil","Teilweises Drehteil","Kein Drehteil"};
+	static String[] coms= {"COM1","COM2","COM3","COM4","COM5","COM6","COM7"};
+	static JLabel o,m,d;
+	static JButton b,s,r;
+	static int objectheight;
+	static int mode;
+	static int center;
 		void Label() {
 		jf = new JFrame();
 		jf.setTitle("3D-Scanner");
@@ -50,19 +50,33 @@ public class GUI implements ActionListener{
 		jcom=new JComboBox(coms);
 		jc.setBounds(100, 160, 150, 20);
 		jcom.setBounds(100, 30, 150, 20);
-		b = new JButton("Set");
-		b.setBounds(120, 200, 95, 30);
+		b = new JButton("Set current values");
+		b.setBounds(100, 200, 150, 30);
 		s=new JButton("Send to Arduino");
-		s.setBounds(70,250,200,30);
+		s.setBounds(75,250,200,30);
 		r=new JButton("Refresh");
 		r.setBounds(120,380,100,30);
 		PopupFactory factory = PopupFactory.getSharedInstance();
 		Popup popup=factory.getPopup(jf, new JTextField("Enter an Integer number!"), 400, 250);
+		s.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					PortWriter.write();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		r.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				d.setText("Distance to Center: "+readData()+" mm");
 				SwingUtilities.updateComponentTreeUI(jf);
+				readConfigData();
+				SwingUtilities.updateComponentTreeUI(jcom);
+				SwingUtilities.updateComponentTreeUI(tf);
+				SwingUtilities.updateComponentTreeUI(jc);
 				jf.setVisible(true);
 			}
 		});
@@ -73,7 +87,8 @@ public class GUI implements ActionListener{
 				try{
 					formatInt();
 					try (PrintWriter out = new PrintWriter("config.txt")) {
-					    out.println(objectheight);
+					    out.println(jcom.getSelectedIndex());
+						out.println(objectheight);
 						out.println(mode);
 						System.out.println(objectheight+" "+mode);
 					} catch (FileNotFoundException e) {
@@ -115,6 +130,23 @@ public class GUI implements ActionListener{
 			e.printStackTrace();
 		}
 		return "0";
+	}
+	void readConfigData() {
+		try {
+			Scanner sc=new Scanner(new File("config.txt"));
+			if(sc.hasNextLine()) {
+				jcom.setSelectedIndex(Integer.parseInt(sc.nextLine()));
+			}
+			if(sc.hasNextLine()) {
+				tf.setText(sc.nextLine());
+			}
+			if(sc.hasNextLine()) {
+				jc.setSelectedIndex(Integer.parseInt(sc.nextLine()));
+			}
+		}
+		catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	public void formatInt() {
 		objectheight=Integer.parseInt(tf.getText());
