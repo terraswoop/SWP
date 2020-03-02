@@ -35,10 +35,10 @@ public class Context {
 
 	public static void main(String[] args) {
 		Context c=new Context();
-		c.setGeld(true);
-		c.setIchverstehen(true);
+		c.setGeld(false);
+		c.setIchverstehen(false);
 		c.setState(new HalloState());
-		for(int i=0;i<20;i++) {
+		for(int i=0;i<18;i++) {
 			c.advance();
 		}
 	}
