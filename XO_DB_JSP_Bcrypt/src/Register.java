@@ -44,7 +44,7 @@ public class Register extends HttpServlet {
 		RequestDispatcher d = request.getRequestDispatcher("success.jsp");
 			
 		//Connection c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/webhz?serverTimezone=MET", "root","root");
-		DBManager.addUser( u, p);
+		DBManager.addUser(u, p);
 		d.forward(request,  response);
 	}
 
