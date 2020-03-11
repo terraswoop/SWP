@@ -1,9 +1,14 @@
+package db;
 
 
 import java.io.IOException;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +16,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet implementation class LoginCheck
  */
+@WebServlet("/db/LoginCheck")
 public class LoginCheck extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -42,8 +48,11 @@ public class LoginCheck extends HttpServlet {
 		request.setAttribute("benutzer", u);
 		//session.setAttribute("password", p);
 		request.setAttribute("password", p);
-		RequestDispatcher d = request.getRequestDispatcher("success.jsp");
-		if(!DBManager.authorized(u, p)) {
+		EntityManagerFactory f=Persistence.createEntityManagerFactory("jpa");
+        EntityManager manager=f.createEntityManager();
+        //RequestDispatcher d = request.getRequestDispatcher("index.jsp");
+		RequestDispatcher d = request.getRequestDispatcher("../../../WebContent/success.jsp");
+		if(!DBManager.authorized(manager, u, p)) {
 			request.setAttribute("meldung", "Password oder Username ist falsch!");
 			d=request.getRequestDispatcher("index.jsp");	
 		}
