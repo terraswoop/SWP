@@ -51,10 +51,10 @@ public class LoginCheck extends HttpServlet {
 		EntityManagerFactory f=Persistence.createEntityManagerFactory("jpa");
         EntityManager manager=f.createEntityManager();
         //RequestDispatcher d = request.getRequestDispatcher("index.jsp");
-		RequestDispatcher d = request.getRequestDispatcher("../../../WebContent/success.jsp");
+		RequestDispatcher d = request.getRequestDispatcher("../success.jsp");
 		if(!DBManager.authorized(manager, u, p)) {
 			request.setAttribute("meldung", "Password oder Username ist falsch!");
-			d=request.getRequestDispatcher("index.jsp");	
+			d=request.getRequestDispatcher("../index.jsp");	
 		}
 		d.forward(request,  response);
 	}

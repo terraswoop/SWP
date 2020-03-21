@@ -21,14 +21,14 @@ if(msg!=null){
 	out.append("<p style='color:red;'>"+msg+"</p>");
 }
 %>
-<form method="post" action="db.LoginCheck">
+<form method="post" action="db/LoginCheck">
 	Name: 		<input type="text" class="form-control" name="user"><br>
 	Passwort: 	<input type="password" class="form-control" name="pwd"><br>
 	<button class="btn btn-primary" type="submit">Senden</button>
 </form>
 <br>
 <p style="font-size:30px;">Register:</p>
-<form method="post" action="db.Register">
+<form method="post" action="db/Register">
 	Name: 		<input type="text" class="form-control" name="user"><br>
 	Passwort: 	<input type="password" class="form-control" name="pwd"><br>
 	<button class="btn btn-primary" type="submit">Senden</button>
