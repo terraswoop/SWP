@@ -49,12 +49,13 @@ public class Register extends HttpServlet {
 		request.setAttribute("password", p);
 		System.out.println("Hallo");
 		//RequestDispatcher d = request.getRequestDispatcher("index.jsp");
+		response.sendRedirect("../index.jsp");
 		RequestDispatcher d = request.getRequestDispatcher("../index.jsp");
 		EntityManagerFactory f=Persistence.createEntityManagerFactory("jpa");
         EntityManager manager=f.createEntityManager();	
 		//Connection c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/webhz?serverTimezone=MET", "root","root");
 		DBManager.addUser(manager, u, p);
-		d.forward(request,  response);
+		//d.forward(request,  response);
 	}
 
 }

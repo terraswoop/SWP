@@ -53,10 +53,17 @@ public class LoginCheck extends HttpServlet {
         //RequestDispatcher d = request.getRequestDispatcher("index.jsp");
 		RequestDispatcher d = request.getRequestDispatcher("../success.jsp");
 		if(!DBManager.authorized(manager, u, p)) {
-			request.setAttribute("meldung", "Password oder Username ist falsch!");
-			d=request.getRequestDispatcher("../index.jsp");	
+			//response.sendError("meldung", "Password oder Username ist falsch!");
+			d=request.getRequestDispatcher("../index.jsp");
+			response.sendRedirect("../failed.html");
+			System.out.println("Bisch nid drein!");
 		}
-		d.forward(request,  response);
+		else {
+			System.out.println("Bisch drein!");
+			d.forward(request,  response);
+		}
+		
+		
 	}
 
 }

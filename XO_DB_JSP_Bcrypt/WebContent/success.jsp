@@ -7,6 +7,6 @@
 <title>SUCCESS</title>
 </head>
 <body>
-<h1>Part< isch offen</h1>
+<h1>Party isch offen</h1>
 </body>
 </html>
